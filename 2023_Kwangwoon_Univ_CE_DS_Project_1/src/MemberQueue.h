@@ -2,12 +2,11 @@
 #include "MemberQueueNode.h"
 #include <string>
 #include <iostream>
-#include <cstring>
 
 class MemberQueue
 {
 private:
-	MemberQueueNode circular_queue[100];
+	MemberQueueNode circular_queue[101];
 	int head = 0, tail = 0; // front, rear position
 
 public:

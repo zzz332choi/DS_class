@@ -1,20 +1,47 @@
 #pragma once
+#include <cstring>
+using namespace std;
 
 class TermsBSTNode
 {
 private:
+	char *name = nullptr;
+	int age = 0;
+	char *date = nullptr;
+	char *end_date = nullptr;
 
-	TermsBSTNode*	left;
-	TermsBSTNode*	right;
-
+	TermsBSTNode *left;
+	TermsBSTNode *right;
 
 public:
 	TermsBSTNode() {}
 	~TermsBSTNode() {}
 
-	TermsBSTNode*	getLeft()			{ return left; }
-	TermsBSTNode*	getRight()			{ return right; }
+	char *get_name() { return name; }
+	int get_age() { return age; }
+	char *get_date() { return date; }
+	char *get_end_date() { return end_date; }
 
-	void setLeft (TermsBSTNode* left)	{ this->left = left; }
-	void setRight(TermsBSTNode* right)	{ this->right = right; }
+	void set_name(char *str)
+	{
+		name = new char[strlen(str) + 1];
+		strcpy(name, str);
+	}
+	void set_age(int num) { age = num; }
+	void set_date(char *str)
+	{
+		date = new char[strlen(str) + 1];
+		strcpy(date, str);
+	}
+	void set_end_date(char *str)
+	{
+		end_date = new char[strlen(str) + 1];
+		strcpy(end_date, str);
+	}
+
+	TermsBSTNode *getLeft() { return left; }
+	TermsBSTNode *getRight() { return right; }
+
+	void setLeft(TermsBSTNode *left) { this->left = left; }
+	void setRight(TermsBSTNode *right) { this->right = right; }
 };
