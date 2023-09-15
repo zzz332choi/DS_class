@@ -4,7 +4,7 @@
 class TermsBST
 {
 private:
-	TermsBSTNode* root = nullptr;
+	TermsBSTNode* root;
 
 public:
 	TermsBST();
