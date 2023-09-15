@@ -43,7 +43,7 @@ void MemberQueue::push(string str)
             tail->setting_next(node);
             tail = node; // now next_node is tail
         }
-//asdfasdfasdf
+
         else
         {
             size++;             // The queue'size is 1
