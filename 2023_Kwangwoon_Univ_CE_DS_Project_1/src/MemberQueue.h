@@ -7,8 +7,8 @@
 class MemberQueue
 {
 private:
-	MemberQueueNode * head = nullptr, * tail = nullptr;
-	int size = 0;
+	MemberQueueNode circular_queue[100];
+	int head = 0, tail = 0; // front, rear position
 
 public:
 	MemberQueue();

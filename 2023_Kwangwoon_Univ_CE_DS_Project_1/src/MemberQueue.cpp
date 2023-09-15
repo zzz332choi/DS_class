@@ -9,17 +9,20 @@ MemberQueue::~MemberQueue()
 
 bool MemberQueue::empty()
 {
-    return size; // if size > 0 return 1
+    return head == tail;
 }
 bool MemberQueue::full()
 {
-    return size == 100;
+    return ((tail - head) == -1);
 }
 void MemberQueue::push(string str)
 {
-    if (!full())
+    if (tail != 100);
+    else tail = -1;
+ 
+    if (!full()) // it's ready for adding node
     {
-        MemberQueueNode *node = new MemberQueueNode;
+        MemberQueueNode *node = &circular_queue[++tail];
         char *s = new char[str.length() + 1];
         strcpy(s, str.c_str()); // copy str
         const char *p = strtok(s, " ");
@@ -34,21 +37,6 @@ void MemberQueue::push(string str)
         p = strtok(NULL, " ");
 
         node->setting_condition_type(p[0]); // setting condtion_type
-
-        // it's ready for adding node
-
-        if (!empty())
-        {           // if queue isn't empty
-            size++; // queue size is increased
-            tail->setting_next(node);
-            tail = node; // now next_node is tail
-        }
-
-        else
-        {
-            size++;             // The queue'size is 1
-            head = tail = node; // first adding
-        }
     }
 
     else
@@ -57,14 +45,15 @@ void MemberQueue::push(string str)
 MemberQueueNode MemberQueue::pop()
 {
     if (!empty()) // queue must not be empty
-    {
-        MemberQueueNode *ptr = head;
-        head = head->get_next();
+        return circular_queue[++head];
 
-        return *ptr;
-    }
+    else
+        exit(0); // program shut down if queue is empty
 }
 MemberQueueNode MemberQueue::front()
 {
-    return *head;
+    if (!empty()) // queue must not be empty
+        return circular_queue[head + 1];
+    else
+        exit(0);
 }
