@@ -7,8 +7,8 @@
 class MemberQueue
 {
 private:
-	MemberQueueNode * front = nullptr, * rear = nullptr;
-	int size = -1;
+	MemberQueueNode * head = nullptr, * tail = nullptr;
+	int size = 0;
 
 public:
 	MemberQueue();
