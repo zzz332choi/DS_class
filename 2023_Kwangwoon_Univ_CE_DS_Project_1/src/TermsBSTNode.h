@@ -10,30 +10,34 @@ private:
 	char *date = nullptr;
 	char *end_date = nullptr;
 
-	TermsBSTNode *left;
-	TermsBSTNode *right;
+	TermsBSTNode *left = nullptr;
+	TermsBSTNode *right = nullptr;
 
 public:
 	TermsBSTNode() {}
-	~TermsBSTNode() {}
+	~TermsBSTNode() {
+		delete[] name;
+		delete[] date;
+		delete[] end_date;
+	}
 
-	char *get_name() { return name; }
+	char *get_name() { return name; } 
 	int get_age() { return age; }
 	char *get_date() { return date; }
 	char *get_end_date() { return end_date; }
 
-	void set_name(char *str)
+	void set_name(char *str) // set name
 	{
 		name = new char[strlen(str) + 1];
 		strcpy(name, str);
 	}
-	void set_age(int num) { age = num; }
-	void set_date(char *str)
+	void set_age(int num) { age = num; } // set age
+	void set_date(char *str) // set date
 	{
 		date = new char[strlen(str) + 1];
 		strcpy(date, str);
 	}
-	void set_end_date(char *str)
+	void set_end_date(char *str) //set end date
 	{
 		end_date = new char[strlen(str) + 1];
 		strcpy(end_date, str);
