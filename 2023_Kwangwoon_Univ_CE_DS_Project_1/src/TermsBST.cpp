@@ -5,7 +5,7 @@ TermsBST::TermsBST() : root(nullptr)
 }
 TermsBST::~TermsBST()
 {
-	_delete_all(root); // dynamic deallocation
+	//_delete_all(root); // dynamic deallocation
 }
 
 TermsBSTNode *TermsBST::getRoot()
@@ -35,7 +35,7 @@ void TermsBST::_print(TermsBSTNode *ptr) { // print node by in-order
 void TermsBST::_delete(char *str) {
 
 }
-void _delete_all(TermsBSTNode* ptr){ // dynamic deallocation by post-order
+void TermsBST::_delete_all(TermsBSTNode* ptr){ // dynamic deallocation by post-order
 	if(ptr){
 		_delete_all(ptr->getLeft());
 		_delete_all(ptr->getRight());
