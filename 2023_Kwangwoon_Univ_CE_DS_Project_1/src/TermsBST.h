@@ -1,5 +1,6 @@
 #pragma once
 #include "TermsBSTNode.h"
+#include <stdio.h>
 
 class TermsBST
 {
@@ -11,6 +12,8 @@ public:
 	~TermsBST();
 
 	TermsBSTNode* getRoot();
+
+	char* calculate_end_date(char* start, char type);
 
 	// insert
 	void _insert(MemberQueueNode data);

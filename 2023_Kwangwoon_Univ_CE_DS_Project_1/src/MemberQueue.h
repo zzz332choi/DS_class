@@ -2,6 +2,7 @@
 #include "MemberQueueNode.h"
 #include <string>
 #include <iostream>
+#include <cstring>
 
 class MemberQueue
 {
