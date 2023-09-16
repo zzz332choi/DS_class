@@ -53,7 +53,7 @@ MemberQueueNode MemberQueue::pop()
 MemberQueueNode MemberQueue::front()
 {
     if (!empty()) // queue must not be empty
-        return circular_queue[head + 1];
+        return circular_queue[(head + 1) % 101];
     else
         exit(0);
 }
