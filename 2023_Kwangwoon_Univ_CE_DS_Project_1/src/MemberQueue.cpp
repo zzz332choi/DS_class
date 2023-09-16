@@ -13,7 +13,7 @@ bool MemberQueue::empty()
 }
 bool MemberQueue::full()
 {
-    return ((tail + 1) % 101 == head)
+    return ((tail + 1) % 101 == head);
 }
 void MemberQueue::push(string str)
 {
@@ -21,7 +21,7 @@ void MemberQueue::push(string str)
     {
         tail = (tail + 1) % 101;
 
-        MemberQueueNode *node = &circular_queue[++tail];
+        MemberQueueNode *node = &circular_queue[tail];
         char *s = new char[str.length() + 1];
         strcpy(s, str.c_str()); // copy str
         const char *p = strtok(s, " ");
@@ -43,9 +43,10 @@ void MemberQueue::push(string str)
 }
 MemberQueueNode MemberQueue::pop()
 {
-    if (!empty()) // queue must not be empty
-        return circular_queue[++head];
-
+    if (!empty()) {// queue must not be empty
+        head = (head + 1) % 101;
+        return circular_queue[head];
+    }
     else
         exit(0); // program shut down if queue is empty
 }
