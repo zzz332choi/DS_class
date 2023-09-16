@@ -93,7 +93,8 @@ void TermsBST::_print(TermsBSTNode *ptr)
 	if (ptr)
 	{
 		_print(ptr->getLeft());
-		printf("%s/%02d/%s/%s\n", ptr->get_name(), ptr->get_age(), ptr->get_date(), ptr->get_end_date());
+		//printf("%s/%02d/%s/%s\n", ptr->get_name(), ptr->get_age(), ptr->get_date(), ptr->get_end_date());
+		// output is using file stream not console windows 
 		_print(ptr->getRight());
 	}
 }
