@@ -105,18 +105,48 @@ void TermsBST::_print(TermsBSTNode *ptr)
 	}
 }
 
-TermsBSTNode *TermsBST::find(const char *str, TermsBSTNode *ptr)
-{ // find node by in-order
-	if (ptr)
-	{
-		find(str, ptr->getLeft());
-		if (!strcmp(str, ptr->get_end_date()))
-			return ptr;
-		find(str, ptr->getRight());
-	}
+void TermsBST::find(TermsBSTNode*& ptr, TermsBSTNode*& par, char* str) {
 
-	return nullptr;
+	if (root) 
+	{		
+		if (strcmp(str, root -> get_end_date()) < 0) {
+			par = root;
+			ptr = root -> getLeft();
+
+			while(ptr) { 
+				if(strcmp(str, ptr->get_end_date()) < 0){
+					par = ptr;
+					ptr = ptr->getLeft();
+				}
+				else if(strcmp(str, par->get_end_date()) > 0){
+					par = ptr;
+					ptr = ptr->getRight();
+				}
+				else break;
+			}
+		}
+
+		else if (strcmp(str, root ->get_end_date()) > 0){
+			par = root;
+			ptr = root ->getRight();
+
+			while(ptr) { 
+				if(strcmp(str, ptr->get_end_date()) < 0){
+					par = ptr;
+					ptr = ptr->getLeft();
+				}
+				else if(strcmp(str, par->get_end_date()) > 0){
+					par = ptr;
+					ptr = ptr->getRight();
+				}
+				else break;
+			}
+		}
+
+		else ptr = root;
+	}
 }
+
 void TermsBST::data_copy(TermsBSTNode *first, TermsBSTNode *second)
 { // first data copies second node's data
 	first->set_age(second->get_age());
@@ -127,7 +157,9 @@ void TermsBST::data_copy(TermsBSTNode *first, TermsBSTNode *second)
 // delete
 void TermsBST::_delete(char *str)
 {
-	TermsBSTNode *ptr = find(str, root);
+	TermsBSTNode *ptr = nullptr, *par = nullptr;
+	find(ptr, par, str);
+
 	while (ptr)
 	{
 		if (ptr->getLeft())
@@ -175,7 +207,7 @@ void TermsBST::_delete(char *str)
 				{
 					data_copy(ptr, node);
 					delete node;
-					pre_node->setRight(nullptr); 
+					pre_node->setRight(nullptr);
 				}
 			}
 		}
@@ -183,31 +215,48 @@ void TermsBST::_delete(char *str)
 		{
 			if (ptr->getRight())
 			{ // ptr has only right child
-				TermsBSTNode* node = ptr->getRight(), * pre_node = ptr;
+				TermsBSTNode *node = ptr->getRight(), *pre_node = ptr;
 
-				while(node->getLeft()){ // move to the left untill left child does not exist.
-					pre_node =node;
+				while (node->getLeft())
+				{ // move to the left untill left child does not exist.
+					pre_node = node;
 					node = node->getLeft();
 				}
 
-				if(node->getRight()) {
+				if (node->getRight())
+				{
 					data_copy(ptr, node);
 					pre_node->setLeft(node->getRight());
 					delete node;
 				}
-				else{
+				else
+				{
 					data_copy(ptr, node);
-					pre_node ->setLeft(nullptr);
+					pre_node->setLeft(nullptr);
 					delete node;
 				}
 			}
 			else
 			{ // ptr doesn't have child
-				TermsBSTNode* x =  &ptr;
+				if(par) { 
+					if(par->getLeft()) if(par->getLeft() == ptr) {
+						par->setLeft(nullptr);
+						delete ptr;
+					}
+					else if(par->getRight()) if(par->getRight() == ptr) {
+						par->setRight(nullptr);
+						delete ptr;
+					}
+				}
+				
+				else { // BST has only root 
+					delete root;
+				}
 			}
 		}
 
-		ptr = find(str, root);
+		ptr = nullptr, par = nullptr;
+		find(ptr, par, str);
 	}
 }
 void TermsBST::_delete_all(TermsBSTNode *ptr)
