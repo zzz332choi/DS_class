@@ -14,7 +14,7 @@ TermsBSTNode *TermsBST::getRoot()
 }
 
 // calculate end date
-char *calculate_end_date(char *start, char type)
+char *TermsBST::calculate_end_date(char *start, char type)
 {
 	char *p = strtok(start, "-");
 	int y = atoi(p);
@@ -60,22 +60,28 @@ void TermsBST::_insert(MemberQueueNode data)
 	node->set_date(data.get_date());
 	node->set_end_date(calculate_end_date(node->get_date(), data.get_condition_type()));
 
-	if (root) {
+	if (root)
+	{
 		TermsBSTNode *ptr = root;
 
-		while (1) {
-			if (strcmp(ptr->get_end_date(), node->get_end_date()) < 0) {  
+		while (1)
+		{
+			if (strcmp(ptr->get_end_date(), node->get_end_date()) < 0)
+			{
 				if (ptr->getLeft())
 					ptr = ptr->getLeft();
-				else {
+				else
+				{
 					ptr->setLeft(node);
 					break;
 				}
 			}
-			else {
-				if(ptr->getRight())
+			else
+			{
+				if (ptr->getRight())
 					ptr = ptr->getRight();
-				else {
+				else
+				{
 					ptr->setRight(node);
 					break;
 				}
@@ -93,14 +99,99 @@ void TermsBST::_print(TermsBSTNode *ptr)
 	if (ptr)
 	{
 		_print(ptr->getLeft());
-		//printf("%s/%02d/%s/%s\n", ptr->get_name(), ptr->get_age(), ptr->get_date(), ptr->get_end_date());
-		// output is using file stream not console windows 
+		// printf("%s/%02d/%s/%s\n", ptr->get_name(), ptr->get_age(), ptr->get_date(), ptr->get_end_date());
+		//  output is using file stream not console windows
 		_print(ptr->getRight());
 	}
+}
+
+TermsBSTNode *TermsBST::find(const char *str, TermsBSTNode *ptr)
+{ // find node by in-order
+	if (ptr)
+	{
+		find(str, ptr->getLeft());
+		if (!strcmp(str, ptr->get_end_date()))
+			return ptr;
+		find(str, ptr->getRight());
+	}
+
+	return nullptr;
+}
+void TermsBST::data_copy(TermsBSTNode *first, TermsBSTNode *second)
+{ // first data copies second node's data
+	first->set_age(second->get_age());
+	first->set_date(second->get_date());
+	first->set_end_date(second->get_end_date());
+	first->set_name(second->get_name());
 }
 // delete
 void TermsBST::_delete(char *str)
 {
+	TermsBSTNode *ptr = find(str, root);
+	while (ptr)
+	{
+		if (ptr->getLeft())
+		{
+			if (ptr->getRight())
+			{ // node has both child
+				TermsBSTNode *node = ptr->getRight(), *pre_node = ptr;
+
+				while (node->getLeft()) // move to the left until leftchild does not exist
+				{
+					pre_node = node;
+					node = node->getLeft();
+				}
+
+				if (node->getRight())
+				{
+					data_copy(ptr, node);
+					pre_node->setLeft(node->getRight());
+					delete node;
+				}
+				else
+				{
+					data_copy(ptr, node);
+					delete node;
+					pre_node->setLeft(nullptr);
+				}
+			}
+			else
+			{ // node has only left child
+				TermsBSTNode *node = ptr->getLeft(), *pre_node = ptr;
+
+				while (node->getRight())
+				{
+					pre_node = node;
+					node = node->getRight();
+				}
+
+				if (node->getLeft())
+				{
+					data_copy(ptr, node);
+					pre_node->setRight(node->getLeft());
+					delete node;
+				}
+				else
+				{
+					data_copy(ptr, node);
+					delete node;
+					pre_node->setLeft(nullptr);
+				}
+			}
+		}
+		else
+		{
+			if (ptr->getRight())
+			{ // node has only right child
+			}
+			else
+			{ // node doesn't have child
+				delete ptr;
+			}
+		}
+
+		ptr = find(str, root);
+	}
 }
 void TermsBST::_delete_all(TermsBSTNode *ptr)
 { // dynamic deallocation by post-order
