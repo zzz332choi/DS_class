@@ -13,15 +13,14 @@ bool MemberQueue::empty()
 }
 bool MemberQueue::full()
 {
-    return ((tail - head) == -1);
+    return ((tail + 1) % 101 == head)
 }
 void MemberQueue::push(string str)
 {
-    if (tail != 100);
-    else tail = -1;
- 
     if (!full()) // it's ready for adding node
     {
+        tail = (tail + 1) % 101;
+
         MemberQueueNode *node = &circular_queue[++tail];
         char *s = new char[str.length() + 1];
         strcpy(s, str.c_str()); // copy str
