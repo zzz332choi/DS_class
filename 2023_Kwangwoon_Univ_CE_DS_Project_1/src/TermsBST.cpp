@@ -133,7 +133,7 @@ void TermsBST::_delete(char *str)
 		if (ptr->getLeft())
 		{
 			if (ptr->getRight())
-			{ // node has both child
+			{ // ptr has both child
 				TermsBSTNode *node = ptr->getRight(), *pre_node = ptr;
 
 				while (node->getLeft()) // move to the left until leftchild does not exist
@@ -156,10 +156,10 @@ void TermsBST::_delete(char *str)
 				}
 			}
 			else
-			{ // node has only left child
+			{ // ptr has only left child
 				TermsBSTNode *node = ptr->getLeft(), *pre_node = ptr;
 
-				while (node->getRight())
+				while (node->getRight()) // move to the right untill rightchild does not exist
 				{
 					pre_node = node;
 					node = node->getRight();
@@ -175,18 +175,35 @@ void TermsBST::_delete(char *str)
 				{
 					data_copy(ptr, node);
 					delete node;
-					pre_node->setLeft(nullptr);
+					pre_node->setRight(nullptr); 
 				}
 			}
 		}
 		else
 		{
 			if (ptr->getRight())
-			{ // node has only right child
+			{ // ptr has only right child
+				TermsBSTNode* node = ptr->getRight(), * pre_node = ptr;
+
+				while(node->getLeft()){ // move to the left untill left child does not exist.
+					pre_node =node;
+					node = node->getLeft();
+				}
+
+				if(node->getRight()) {
+					data_copy(ptr, node);
+					pre_node->setLeft(node->getRight());
+					delete node;
+				}
+				else{
+					data_copy(ptr, node);
+					pre_node ->setLeft(nullptr);
+					delete node;
+				}
 			}
 			else
-			{ // node doesn't have child
-				delete ptr;
+			{ // ptr doesn't have child
+				TermsBSTNode* x =  &ptr;
 			}
 		}
 
