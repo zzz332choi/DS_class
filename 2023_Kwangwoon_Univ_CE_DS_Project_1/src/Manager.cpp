@@ -58,7 +58,11 @@ void Manager::LOAD(){
     while(!fdata.eof()){
         string str;
         getline(fdata, str);
+
+        queue.push(str);
     }
+
+    fdata.close();
 }
 // ADD
 
