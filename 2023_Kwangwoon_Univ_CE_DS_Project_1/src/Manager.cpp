@@ -21,6 +21,15 @@ void Manager::run(const char* command)
     }
 
     // Run command
+    while(!fcmd.eof()){
+        char com[7] = {0};
+        fcmd >> com;
+
+        string str;
+        getline(fcmd, str);
+
+
+    }
 
 
     fcmd.close();
@@ -42,7 +51,15 @@ void Manager::PrintErrorCode(int num)
 }
 
 // LOAD
+void Manager::LOAD(){
+    ifstream fdata;
+    fdata.open("data.txt"); 
 
+    while(!fdata.eof()){
+        string str;
+        getline(fdata, str);
+    }
+}
 // ADD
 
 // QPOP
