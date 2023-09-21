@@ -64,7 +64,7 @@ void TermsBST::_insert(MemberQueueNode data)
 	{
 		TermsBSTNode *ptr = root;
 
-		while (1)
+		while (ptr)
 		{
 			if (strcmp(ptr->get_end_date(), node->get_end_date()) < 0)
 			{

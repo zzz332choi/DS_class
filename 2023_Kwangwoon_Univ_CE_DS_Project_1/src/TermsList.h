@@ -1,4 +1,5 @@
 #pragma once
+#include "TermsBST.h"
 #include "TermsListNode.h"
 
 class TermsLIST
@@ -14,6 +15,9 @@ public:
 	TermsListNode* getHead();
 
 	// insert
+	void INSERT(MemberQueueNode data);
 	// search
+	void SEARCH();
 	// delete
+	void DELETE(string str);
 };
