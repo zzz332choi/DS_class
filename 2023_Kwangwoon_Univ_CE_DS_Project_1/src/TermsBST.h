@@ -20,7 +20,7 @@ public:
 	// print
 	void _print(TermsBSTNode* ptr);
 	// delete
-	TermsBSTNode* find(const char* str, TermsBSTNode* ptr);
+	void find(TermsBSTNode*& ptr, TermsBSTNode*& par, char* str);
 	void data_copy(TermsBSTNode* first, TermsBSTNode* second);
 	void _delete(char* str);
 	void _delete_all(TermsBSTNode* ptr);

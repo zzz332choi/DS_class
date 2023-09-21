@@ -6,31 +6,24 @@ using namespace std;
 class MemberQueueNode
 {
 private:
-	char* name = nullptr;
+	char name[21] = {0};
 	int age = 0;
-	char* date = nullptr;
+	char date[11] = {0};
 	char condition_type;
 
 	MemberQueueNode* next = nullptr;
 
 public:
 	MemberQueueNode() {}
-	virtual ~MemberQueueNode() {
-		delete[] name;
-		delete[] date;
-	}
+	virtual ~MemberQueueNode() {}
 
 	void setting_name(const char* str) {
-		name = new char [strlen(str) + 1];
-		name[0] = 0;
 		strcpy(name, str);
 	}
 	void setting_age(const int num) {
 		age = num;
 	}
 	void setting_date(const char* str) {
-		date = new char [strlen(str) + 1];
-		date[0] = 0;
 		strcpy(date, str);
 	}
 	void setting_condition_type(const char c) {
@@ -40,13 +33,13 @@ public:
 		next = node;
 	}
 
-	char* get_name() const {
+	char* get_name() {
 		return name;
 	}
 	int get_age() const {
 		return age;
 	}
-	char* get_date() const {
+	char* get_date() {
 		return date;
 	}
 	char get_condition_type() const {

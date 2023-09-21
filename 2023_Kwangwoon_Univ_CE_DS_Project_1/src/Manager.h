@@ -4,6 +4,8 @@
 #include "TermsBST.h"
 #include "NameBST.h"
 #include <fstream>
+#include <string>
+
 using namespace std;
 
 class Manager
@@ -12,6 +14,9 @@ private:
 
 	ifstream	fcmd;
 	ofstream	flog;
+
+	MemberQueue queue;
+	TermsBST Termsbst;
 
 
 public:
@@ -23,10 +28,16 @@ public:
 	void PrintSuccess(const char* cmd);
 	void PrintErrorCode(int num);
 
+	void print_info(string str);
+
 	// LOAD
+	void LOAD();
 	// ADD
+	void ADD(string str);
 	// QPOP
+	void QPOP();
 	// SEARCH
+	void SEARCH(string str);
 	// PRINT
 	// DELETE
 };
