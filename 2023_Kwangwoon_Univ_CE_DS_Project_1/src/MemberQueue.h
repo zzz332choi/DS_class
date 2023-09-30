@@ -1,4 +1,5 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNINGS
 #include "MemberQueueNode.h"
 #include <string>
 #include <iostream>
@@ -7,8 +8,8 @@
 class MemberQueue
 {
 private:
-	MemberQueueNode * head = nullptr, * tail = nullptr;
-	int size = 0;
+	MemberQueueNode circular_queue[101];
+	int head = 0, tail = 0; // front, rear position
 
 public:
 	MemberQueue();

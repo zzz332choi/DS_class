@@ -1,3 +1,4 @@
+#define CRT_SECURE_NO_WARNINGS
 #include "Manager.h"
 
 int main()
