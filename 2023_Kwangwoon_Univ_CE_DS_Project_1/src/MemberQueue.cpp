@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "MemberQueue.h"
 
 MemberQueue::MemberQueue()
@@ -36,6 +37,7 @@ void MemberQueue::push(string str)
         p = strtok(NULL, " ");
 
         node->setting_condition_type(p[0]); // setting condtion_type
+
     }
 
     else

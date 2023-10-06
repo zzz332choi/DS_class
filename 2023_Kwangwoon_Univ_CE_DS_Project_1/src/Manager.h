@@ -1,4 +1,5 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNINGS
 #include "MemberQueue.h"
 #include "TermsList.h"
 #include "TermsBST.h"
@@ -16,7 +17,8 @@ private:
 	ofstream	flog;
 
 	MemberQueue queue;
-	TermsBST Termsbst;
+	TermsLIST termslist;
+	NameBST namebst;
 
 
 public:
@@ -37,7 +39,9 @@ public:
 	// QPOP
 	void QPOP();
 	// SEARCH
-	void SEARCH(string str);
+	void SEARCH(char* str);
 	// PRINT
+	void PRINT(char* str);
 	// DELETE
+	void DELETE(char* str1, char* str2);
 };

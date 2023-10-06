@@ -17,7 +17,11 @@ public:
 	// insert
 	void INSERT(MemberQueueNode data);
 	// search
-	void SEARCH();
+	TermsListNode* SEARCH(char c);
+	
 	// delete
-	void DELETE(string str);
+	void DELETE_BY_NAME(MemberQueueNode* node); // Delete by namebst
+	char* DELETE_BY_DATE(char* node); // Delete by Terms
+
+	void DELETE_ALL(); // delete all by exit command
 };

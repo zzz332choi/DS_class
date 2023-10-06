@@ -1,4 +1,5 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNING
 #include <cstring>
 #include "MemberQueue.h"
 using namespace std;
@@ -16,10 +17,7 @@ private:
 
 public:
 	TermsBSTNode() {}
-	~TermsBSTNode() {
-		if(left) delete left;
-		if(right) delete right;
-	}
+	~TermsBSTNode() {}
 
 	char *get_name() { return name; } 
 	int get_age() { return age; }

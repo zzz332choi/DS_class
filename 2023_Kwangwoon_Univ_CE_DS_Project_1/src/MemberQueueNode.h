@@ -1,4 +1,5 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNINGS
 #include <cstring>
 
 using namespace std;
@@ -9,9 +10,7 @@ private:
 	char name[21] = {0};
 	int age = 0;
 	char date[11] = {0};
-	char condition_type;
-
-	MemberQueueNode* next = nullptr;
+	char condition_type = 0;
 
 public:
 	MemberQueueNode() {}
@@ -26,11 +25,8 @@ public:
 	void setting_date(const char* str) {
 		strcpy(date, str);
 	}
-	void setting_condition_type(const char c) {
+	void setting_condition_type(char c) {
 		condition_type = c;
-	}
-	void setting_next(MemberQueueNode *node) {
-		next = node;
 	}
 
 	char* get_name() {
@@ -45,7 +41,5 @@ public:
 	char get_condition_type() const {
 		return condition_type;
 	}
-	MemberQueueNode* get_next() const{
-		return next;
-	}
+
 };
