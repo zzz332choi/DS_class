@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "TermsBST.h"
 
 TermsBST::TermsBST() : root(nullptr)
@@ -5,7 +6,7 @@ TermsBST::TermsBST() : root(nullptr)
 }
 TermsBST::~TermsBST()
 {
-	_delete_all(root); // dynamic deallocation
+	DELETE_all(root); // dynamic deallocation
 }
 
 TermsBSTNode *TermsBST::getRoot()
@@ -16,12 +17,16 @@ TermsBSTNode *TermsBST::getRoot()
 // calculate end date
 char *TermsBST::calculate_end_date(char *start, char type)
 {
-	char *p = strtok(start, "-");
+	char* s = new char[strlen(start) + 1];
+	strcpy(s, start);
+	char *p = strtok(s, "-");
 	int y = atoi(p);
 	p = strtok(NULL, "-");
 	int m = atoi(p);
 	p = strtok(NULL, "-");
 	int d = atoi(p);
+
+	delete[] s;
 
 	switch (type)
 	{
@@ -40,21 +45,40 @@ char *TermsBST::calculate_end_date(char *start, char type)
 	case 'D':
 		y += 3;
 		break;
-	defalut:
+	default:
 		break;
 	}
 
-	char *s = new char[strlen(start) + 1];
-	sprintf(s, "%04d-%02d-%02d", y, m, d);
+	char *date = nullptr;
+	date = new char [11];
+	date[0] = 0;
+	
+	date[0] = y / 1000 + '0'; // the seat of a thousand
+	y %= 1000;
+	date[1] = y / 100 + '0'; // the seat of a hundred
+	y %= 100;
+	date[2] = y / 10 + '0'; // the seat of a ten
+	y %= 10;
+	date[3] = y + '0'; // the seat of a one
 
-	return s;
+	date[4] = '-';
+
+	date[5] = m / 10 + '0'; // the seat of a ten
+	date[6] = m % 10 + '0'; // the seat of a one
+
+	date[7] = '-';
+
+	date[8] = d / 10 + '0'; // the seat of a ten
+	date[9] = d % 10 + '0'; // the seat of a one
+
+	return date;
 }
 
 // insert
-void TermsBST::_insert(MemberQueueNode data)
+void TermsBST::INSERT(MemberQueueNode data)
 {
-
-	TermsBSTNode *node;
+	// data copy
+	TermsBSTNode *node = new TermsBSTNode;
 	node->set_name(data.get_name());
 	node->set_age(data.get_age());
 	node->set_date(data.get_date());
@@ -66,7 +90,7 @@ void TermsBST::_insert(MemberQueueNode data)
 
 		while (ptr)
 		{
-			if (strcmp(ptr->get_end_date(), node->get_end_date()) < 0)
+			if (strcmp(ptr->get_end_date(), node->get_end_date()) > 0)
 			{
 				if (ptr->getLeft())
 					ptr = ptr->getLeft();
@@ -94,56 +118,13 @@ void TermsBST::_insert(MemberQueueNode data)
 	}
 }
 // print
-void TermsBST::_print(TermsBSTNode *ptr)
+void TermsBST::PRINT(TermsBSTNode *ptr)
 { // print node by in-order
 	if (ptr)
 	{
-		_print(ptr->getLeft());
-		// printf("%s/%02d/%s/%s\n", ptr->get_name(), ptr->get_age(), ptr->get_date(), ptr->get_end_date());
-		//  output is using file stream not console windows
-		_print(ptr->getRight());
-	}
-}
-
-void TermsBST::find(TermsBSTNode*& ptr, TermsBSTNode*& par, char* str) {
-
-	if (root) 
-	{		
-		if (strcmp(str, root -> get_end_date()) < 0) {
-			par = root;
-			ptr = root -> getLeft();
-
-			while(ptr) { 
-				if(strcmp(str, ptr->get_end_date()) < 0){
-					par = ptr;
-					ptr = ptr->getLeft();
-				}
-				else if(strcmp(str, par->get_end_date()) > 0){
-					par = ptr;
-					ptr = ptr->getRight();
-				}
-				else break;
-			}
-		}
-
-		else if (strcmp(str, root ->get_end_date()) > 0){
-			par = root;
-			ptr = root ->getRight();
-
-			while(ptr) { 
-				if(strcmp(str, ptr->get_end_date()) < 0){
-					par = ptr;
-					ptr = ptr->getLeft();
-				}
-				else if(strcmp(str, par->get_end_date()) > 0){
-					par = ptr;
-					ptr = ptr->getRight();
-				}
-				else break;
-			}
-		}
-
-		else ptr = root;
+		PRINT(ptr->getLeft());
+		flog << ptr->get_name() << '/' << ptr->get_age() << '/' << ptr->get_date() << '/' << ptr->get_end_date() << endl;
+		PRINT(ptr->getRight());
 	}
 }
 
@@ -154,117 +135,173 @@ void TermsBST::data_copy(TermsBSTNode *first, TermsBSTNode *second)
 	first->set_end_date(second->get_end_date());
 	first->set_name(second->get_name());
 }
+
+
 // delete
-void TermsBST::_delete(char *str)
+char* TermsBST::DELETE_BY_DATE(char *str) // parameter is end_date
 {
-	TermsBSTNode *ptr = nullptr, *par = nullptr;
-	find(ptr, par, str);
+	TermsBSTNode* ptr = root, * prev = nullptr, * prevprev = nullptr, * curr = nullptr;
+	//char name[21] = { 'E', 'N', 'D' };
+	char *name = nullptr;
+	name = new char [4];
+	strcpy(name, "END");
 
-	while (ptr)
-	{
-		if (ptr->getLeft())
-		{
-			if (ptr->getRight())
-			{ // ptr has both child
-				TermsBSTNode *node = ptr->getRight(), *pre_node = ptr;
-
-				while (node->getLeft()) // move to the left until leftchild does not exist
-				{
-					pre_node = node;
-					node = node->getLeft();
-				}
-
-				if (node->getRight())
-				{
-					data_copy(ptr, node);
-					pre_node->setLeft(node->getRight());
-					delete node;
-				}
-				else
-				{
-					data_copy(ptr, node);
-					delete node;
-					pre_node->setLeft(nullptr);
-				}
-			}
-			else
-			{ // ptr has only left child
-				TermsBSTNode *node = ptr->getLeft(), *pre_node = ptr;
-
-				while (node->getRight()) // move to the right untill rightchild does not exist
-				{
-					pre_node = node;
-					node = node->getRight();
-				}
-
-				if (node->getLeft())
-				{
-					data_copy(ptr, node);
-					pre_node->setRight(node->getLeft());
-					delete node;
-				}
-				else
-				{
-					data_copy(ptr, node);
-					delete node;
-					pre_node->setRight(nullptr);
-				}
-			}
+	while (ptr) { 
+		if (strcmp(str, ptr->get_end_date()) > 0) {
+			delete[] name;
+			name = new char [strlen(ptr->get_name()) + 1];
+			strcpy(name, ptr->get_name());
+			break;
 		}
-		else
-		{
-			if (ptr->getRight())
-			{ // ptr has only right child
-				TermsBSTNode *node = ptr->getRight(), *pre_node = ptr;
-
-				while (node->getLeft())
-				{ // move to the left untill left child does not exist.
-					pre_node = node;
-					node = node->getLeft();
-				}
-
-				if (node->getRight())
-				{
-					data_copy(ptr, node);
-					pre_node->setLeft(node->getRight());
-					delete node;
-				}
-				else
-				{
-					data_copy(ptr, node);
-					pre_node->setLeft(nullptr);
-					delete node;
-				}
-			}
-			else
-			{ // ptr doesn't have child
-				if(par) { 
-					if(par->getLeft()) if(par->getLeft() == ptr) {
-						par->setLeft(nullptr);
-						delete ptr;
-					}
-					else if(par->getRight()) if(par->getRight() == ptr) {
-						par->setRight(nullptr);
-						delete ptr;
-					}
-				}
-				
-				else { // BST has only root 
-					delete root;
-				}
-			}
+		else {
+			prev = ptr;
+			ptr = ptr->getLeft();
 		}
-
-		ptr = nullptr, par = nullptr;
-		find(ptr, par, str);
 	}
+
+	if (!ptr) {
+		return name;// not found
+	}
+	if (!ptr->getLeft() && !ptr->getRight()) { // ptr is leaf node
+		if (!prev) root = nullptr; // tree only has root
+		else if (prev->getLeft() == ptr) prev->setLeft(nullptr);
+		else prev->setRight(nullptr);
+		delete ptr;
+	}
+
+	else if (!ptr->getLeft()) { // ptr only has right child
+		if (!prev) root = ptr->getRight();
+		else if (prev->getLeft() == ptr) prev->setLeft(ptr->getRight());
+		else prev->setRight(ptr->getRight());
+		delete ptr;
+	}
+
+	else if (!ptr->getRight()) { // ptr only has left child
+		if (!prev) root = ptr->getLeft();
+		else if (prev->getLeft() == ptr) prev->setLeft(ptr->getRight());
+		else prev->setRight(ptr->getRight());
+		delete ptr;
+	}
+
+	else { // ptr has left and right child
+		prevprev = ptr;
+		prev = ptr->getRight();
+		curr = prev->getLeft();
+
+		// Go to the right and repeat until nullptr to the left
+		while (curr) {
+			prevprev = prev;
+			prev = curr;
+			curr = curr->getLeft();
+		}
+
+		if (prevprev == ptr) prevprev->setRight(prev->getRight()); // Repetition has not progressed
+		else prevprev->setLeft(prev->getRight());
+
+		data_copy(ptr, prev);
+		delete prev;
+	}
+
+	return name; // found
 }
-void TermsBST::_delete_all(TermsBSTNode *ptr)
+
+// Delete by NameBST
+void TermsBST::DELETE_BY_NAME(MemberQueueNode* node)
+{
+	char end_date[11] = { 0 };
+	strcpy(end_date, calculate_end_date(node->get_date(), node->get_condition_type()));
+	char name[21] = { 0 };
+	strcpy(name, node->get_name());
+
+	delete node;
+	TermsBSTNode* ptr = root, * prev = nullptr, * prevprev = nullptr, * curr = nullptr;
+
+	while (ptr) {
+		if (strcmp(end_date, ptr->get_end_date()) < 0) {
+			prev = ptr;
+			ptr = ptr->getLeft();
+		}
+		else if (strcmp(end_date, ptr->get_end_date()) > 0) {
+			prev = ptr;
+			ptr = ptr->getRight();
+		}
+		else {
+			if (strcmp(name, ptr->get_name())) { 
+				// If the end date is the same, but the name is different,
+				// it's on the right-hand side of the node
+				
+				prev = ptr;
+				ptr = ptr->getRight();
+			}
+			else break; // match
+		}
+	}
+
+	if (!ptr) return; //  not found
+
+	if (!ptr->getLeft() && !ptr->getRight()) { // ptr is leaf node
+		if (!prev) root = nullptr; // tree only has root
+		else if (prev->getLeft() == ptr) prev->setLeft(nullptr);
+		else prev->setRight(nullptr);
+		delete ptr;
+	}
+
+	else if (!ptr->getLeft()) { // ptr only has right child
+		if (!prev) root = ptr->getRight();
+		else if (prev->getLeft() == ptr) prev->setLeft(ptr->getRight());
+		else prev->setRight(ptr->getRight());
+		delete ptr;
+	}
+
+	else if (!ptr->getRight()) { // ptr only has left child
+		if (!prev) root = ptr->getLeft();
+		else if (prev->getLeft() == ptr) prev->setLeft(ptr->getRight());
+		else prev->setRight(ptr->getRight());
+		delete ptr;
+	}
+
+	else { // ptr has left and right child
+		prevprev = ptr;
+		prev = ptr->getRight();
+		curr = prev->getLeft();
+
+		// Go to the right and repeat until nullptr to the left
+		while (curr) {
+			prevprev = prev;
+			prev = curr;
+			curr = curr->getLeft();
+		}
+
+		// copy info
+		ptr->set_age(prev->get_age());
+		ptr->set_date(prev->get_date());
+		ptr->set_name(prev->get_name());
+		ptr->set_end_date(prev->get_end_date());
+
+		if (prevprev == ptr) prevprev->setRight(prev->getRight()); // Repetition has not progressed
+		else prevprev->setLeft(prev->getRight());
+		delete prev;
+	}
+
+	return;
+}
+
+void TermsBST::DELETE_all(TermsBSTNode *ptr)
 { // dynamic deallocation by post-order
 	if (ptr)
 	{
-		_delete_all(ptr->getLeft());
-		_delete_all(ptr->getRight());
+		DELETE_all(ptr->getLeft());
+		DELETE_all(ptr->getRight());
 		delete ptr; // dynamic deallocation
 	}
+}
+
+void TermsBST::FILEOPEN()
+{
+	flog.open("log.txt", ios::app); //Open a file by adding
+}
+
+void TermsBST::FILECLOSE()
+{
+	flog.close();
 }
