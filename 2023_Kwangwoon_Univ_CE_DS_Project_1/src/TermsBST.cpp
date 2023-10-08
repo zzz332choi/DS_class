@@ -82,7 +82,9 @@ void TermsBST::INSERT(MemberQueueNode data)
 	node->set_name(data.get_name());
 	node->set_age(data.get_age());
 	node->set_date(data.get_date());
-	node->set_end_date(calculate_end_date(node->get_date(), data.get_condition_type()));
+	char* p = calculate_end_date(node->get_date(), data.get_condition_type());
+	node->set_end_date(p);
+	delete[] p;
 
 	if (root)
 	{
@@ -212,7 +214,7 @@ void TermsBST::DELETE_BY_NAME(MemberQueueNode* node)
 	char *p = calculate_end_date(node->get_date(), node->get_condition_type());
 	strcpy(end_date, p);
 	delete p;
-	
+
 	char name[21] = { 0 };
 	strcpy(name, node->get_name());
 
