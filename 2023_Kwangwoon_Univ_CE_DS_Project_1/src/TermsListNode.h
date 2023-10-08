@@ -13,7 +13,9 @@ private:
 
 public:
 	TermsListNode() {}
-	~TermsListNode() {}
+	~TermsListNode() {
+		if(root) delete root;
+	}
 
 	TermsListNode*	getNext()		 { return next; }
 
