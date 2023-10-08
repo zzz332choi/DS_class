@@ -293,6 +293,7 @@ void TermsBST::DELETE_all(TermsBSTNode *ptr)
 		DELETE_all(ptr->getLeft());
 		DELETE_all(ptr->getRight());
 		delete ptr; // dynamic deallocation
+		ptr = nullptr;
 	}
 }
 

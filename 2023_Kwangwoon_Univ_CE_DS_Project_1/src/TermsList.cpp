@@ -6,7 +6,8 @@ TermsLIST::TermsLIST() : head(nullptr)
 
 }
 TermsLIST::~TermsLIST()
-{
+{	
+	DELETE_ALL();
 }
 
 TermsListNode* TermsLIST::getHead()
@@ -144,18 +145,11 @@ char* TermsLIST::DELETE_BY_DATE(char* str)
 
 void TermsLIST::DELETE_ALL()
 {
-	TermsListNode* ptr = head;
-	if (head) {
-		while (ptr) {
-			ptr->get_root()->DELETE_all(ptr->get_root()->getRoot());
-			ptr = ptr->getNext();
-		}
 
-		delete head;
-
+	while (head) {
+		TermsListNode* ptr = head;
+		head = head->getNext();
+		delete ptr;//->DELETE_all(ptr->get_root()->getRoot());
 	}
 
-	else {
-		return;
-	}
 }
