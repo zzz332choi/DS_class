@@ -37,7 +37,7 @@ void MemberQueue::push(string str)
         p = strtok(NULL, " ");
 
         node->setting_condition_type(p[0]); // setting condtion_type
-
+        delete[] s;
     }
 
     else

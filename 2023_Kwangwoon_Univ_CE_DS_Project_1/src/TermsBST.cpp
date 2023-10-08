@@ -209,7 +209,10 @@ char* TermsBST::DELETE_BY_DATE(char *str) // parameter is end_date
 void TermsBST::DELETE_BY_NAME(MemberQueueNode* node)
 {
 	char end_date[11] = { 0 };
-	strcpy(end_date, calculate_end_date(node->get_date(), node->get_condition_type()));
+	char *p = calculate_end_date(node->get_date(), node->get_condition_type());
+	strcpy(end_date, p);
+	delete p;
+	
 	char name[21] = { 0 };
 	strcpy(name, node->get_name());
 

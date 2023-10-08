@@ -256,11 +256,16 @@ void Manager::DELETE(char* str1, char* str2)
 {
     if (!strcmp(str1, "DATE")) {
         char name[21] = { 'E', 'N', 'D' }; // escape code is "END" for avoiding infinite loops
-        strcpy(name, termslist.DELETE_BY_DATE(str2));
+        char* p1 = termslist.DELETE_BY_DATE(str2);
+        strcpy(name, p1);
+        delete p1;
+
         if (strcmp(name, "END")) {  //Perform deletion operations in termslist
             while (strcmp(name, "END")) {
                 namebst.DELETE_BY_DATE(name); // If you deleted from the previous line, namebst also performs the delete operation
-                strcpy(name, termslist.DELETE_BY_DATE(str2));
+                char *p2 = termslist.DELETE_BY_DATE(str2);
+                strcpy(name, p2);
+                delete p2;
                 //PrintSuccess("DELETE"); // case 1. Print every time when bst's node is deleted
             }
 

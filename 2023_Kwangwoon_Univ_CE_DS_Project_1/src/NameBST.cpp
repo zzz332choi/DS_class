@@ -23,7 +23,11 @@ void NameBST::INSERT(MemberQueueNode data)
 	node->set_name(data.get_name());
 	node->set_age(data.get_age());
 	node->set_date(data.get_date());
-	node->set_end_date(calculate_end_date(node->get_date(), data.get_condition_type()));
+	
+	char *p = calculate_end_date(data.get_date(), data.get_condition_type());
+	node->set_end_date(p);
+	delete p;
+
 	node->set_condition_type(data.get_condition_type());
 
 	if (root)

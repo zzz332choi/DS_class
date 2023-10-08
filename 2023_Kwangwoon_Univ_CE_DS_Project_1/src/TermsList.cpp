@@ -110,7 +110,10 @@ char* TermsLIST::DELETE_BY_DATE(char* str)
 	strcpy(name, "END");
 
 	while (ptr) {
-		strcpy(name, ptr->get_root()->DELETE_BY_DATE(str));
+		char * p = ptr->get_root()->DELETE_BY_DATE(str);
+		strcpy(name, p);
+		delete p;
+
 		if (strcmp(name, "END")) { // Reducing the number of people after performing deletion
 			ptr->set_cnt(ptr->get_cnt() - 1);
 			break;
