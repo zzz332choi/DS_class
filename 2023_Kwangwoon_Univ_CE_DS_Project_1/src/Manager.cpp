@@ -1,33 +1,25 @@
 #include "Manager.h"
 
-Manager::Manager()
-{
-}
-Manager::~Manager()
-{
-}
+Manager::Manager() { }
+Manager::~Manager() { }
 
-void Manager::run(const char *command)
-{
+void Manager::run(const char *command) {
     // Open command & log file
     fcmd.open(command);
     flog.open("log.txt");
-    if (!fcmd)
-    {
+    if (!fcmd) {
         flog << "Fail to open command file" << endl;
         exit(-1);
     }
 
     // Run command
-    while (!fcmd.eof())
-    {
+    while (!fcmd.eof()) {
         char com[7] = {0};
         fcmd >> com;
 
         if (!strcmp(com, "LOAD")) //If the command is "LOAD"
             LOAD();
-        else if (!strcmp(com, "ADD")) //If the command is "ADD"
-        {
+        else if (!strcmp(com, "ADD")) {//If the command is "ADD"
             string str;
             getline(fcmd, str);
             ADD(str);

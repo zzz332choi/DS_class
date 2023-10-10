@@ -195,6 +195,10 @@ MemberQueueNode* NameBST::DELETE_BY_NAME(char* name)
 		return nullptr; //not found
 	}
 
+	fstream fff;
+	fff.open("log2.txt", ios::app);
+	fff << "delete by name: "<< name << endl;
+	fff.close();
 
 	if (!ptr->getLeft() && !ptr->getRight()) { // ptr is leaf node
 		if (!prev) root = nullptr; // tree only has root
@@ -212,8 +216,8 @@ MemberQueueNode* NameBST::DELETE_BY_NAME(char* name)
 
 	else if (!ptr->getRight()) { // ptr only has left child
 		if (!prev) root = ptr->getLeft();
-		else if (prev->getLeft() == ptr) prev->setLeft(ptr->getRight());
-		else prev->setRight(ptr->getRight());
+		else if (prev->getLeft() == ptr) prev->setLeft(ptr->getLeft());
+		else prev->setRight(ptr->getLeft());
 		delete ptr;
 	}
 
@@ -260,7 +264,14 @@ void NameBST::DELETE_BY_DATE(char* name)
 		else break;
 	}
 
-	if (!ptr) return;// not found
+	if (!ptr) {
+		return;// not found
+	}
+
+	fstream fff;
+	fff.open("log2.txt", ios::app);
+	fff << "delete by date: "<<name << endl;
+	fff.close();
 
 	if (!ptr->getLeft() && !ptr->getRight()) { // ptr is leaf node
 		if (!prev) root = nullptr; // tree only has root
@@ -269,17 +280,17 @@ void NameBST::DELETE_BY_DATE(char* name)
 		delete ptr;
 	}
 
-	else if (!ptr->getLeft()) { // ptr only has right child
+	else if (!ptr->getLeft() && ptr->getRight()) { // ptr only has right child
 		if (!prev) root = ptr->getRight();
 		else if (prev->getLeft() == ptr) prev->setLeft(ptr->getRight());
 		else prev->setRight(ptr->getRight());
 		delete ptr;
 	}
 
-	else if (!ptr->getRight()) { // ptr only has left child
+	else if (ptr->getLeft() && !ptr->getRight()) { // ptr only has left child
 		if (!prev) root = ptr->getLeft();
-		else if (prev->getLeft() == ptr) prev->setLeft(ptr->getRight());
-		else prev->setRight(ptr->getRight());
+		else if (prev->getLeft() == ptr) prev->setLeft(ptr->getLeft());
+		else prev->setRight(ptr->getLeft());
 		delete ptr;
 	}
 

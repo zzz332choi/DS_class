@@ -180,8 +180,8 @@ char* TermsBST::DELETE_BY_DATE(char *str) // parameter is end_date
 
 	else if (!ptr->getRight()) { // ptr only has left child
 		if (!prev) root = ptr->getLeft();
-		else if (prev->getLeft() == ptr) prev->setLeft(ptr->getRight());
-		else prev->setRight(ptr->getRight());
+		else if (prev->getLeft() == ptr) prev->setLeft(ptr->getLeft());
+		else prev->setRight(ptr->getLeft());
 		delete ptr;
 	}
 
@@ -260,8 +260,8 @@ void TermsBST::DELETE_BY_NAME(MemberQueueNode* node)
 
 	else if (!ptr->getRight()) { // ptr only has left child
 		if (!prev) root = ptr->getLeft();
-		else if (prev->getLeft() == ptr) prev->setLeft(ptr->getRight());
-		else prev->setRight(ptr->getRight());
+		else if (prev->getLeft() == ptr) prev->setLeft(ptr->getLeft());
+		else prev->setRight(ptr->getLeft());
 		delete ptr;
 	}
 
