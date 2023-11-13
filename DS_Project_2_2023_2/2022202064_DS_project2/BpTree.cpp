@@ -194,7 +194,7 @@ void BpTree::splitIndexNode(BpTreeNode* pIndexNode) { // Function to split index
 	if(excessIndexNode(parent)) splitIndexNode(parent);
 }
 
-BpTreeNode* BpTree::searchDataNode(string name) {
+BpTreeNode* BpTree::searchDataNode(string name) { // search node
 	if (root) {
 
 		BpTreeNode* pCur = root;
@@ -256,7 +256,7 @@ bool BpTree::searchBook(string name) { // search book
 
 }
 
-bool BpTree::searchRange(string start, string end) { // Delete within range
+bool BpTree::searchRange(string start, string end) { // search within range
 	
 	BpTreeNode* ptr = root;
 
