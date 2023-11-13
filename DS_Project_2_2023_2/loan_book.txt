@@ -1,26 +1,19 @@
-iiiii	700	iii	1999	0
-ggggg	500	ggg	1999	3
-aaaaa	100	aaa	1999	0
-hhhhh	500	hhh	1999	0
-fffff	700	fff	1999	1
-uuuuu	600	uuu	1999	0
-ooooo	500	ooo	1999	0
-lllll	000	lll	1999	0
-kkkkk	100	kkk	1999	0
-xxxxx	700	xxx	1999	0
-zzzzz	300	zzz	1999	3
-nnnnn	500	nnn	1999	0
-sssss	300	sss	1999	0
-ddddd	200	ddd	1999	0
-mmmmm	600	mmm	1999	0
-vvvvv	700	vvv	1999	0
-jjjjj	100	jjj	1999	0
-ttttt	300	ttt	1999	3
-qqqqq	700	qqq	1999	0
-rrrrr	100	rrr	1999	1
-wwwww	300	www	1999	0
-bbbbb	100	bbb	1999	0
-yyyyy	000	yyy	1999	0
-eeeee	000	eee	1999	2
-ppppp	100	ppp	1999	0
-ccccc	200	ccc	1999	0
+bocchi the rock!	200	Hamaji Aki	2018	0
+jojo's bizarre adventure	100	Araki Hirohiko	1987	2
+migi to Dari	300	Sano Nami	2017	1
+frieren: beyond journey's end	100	Abe tksukasa	2020	2
+moriaty the partriot	300	Miyoshi Hikaru	2016	3
+one piece	600	Eiichiro Oda	1997	1
+naruto	500	Masashi Kishimoto	1999	1
+bleach	700	Tite Kubo	2001	0
+attack on titan	700	Hajime Isayama	2009	1
+demon slayer	100	Koyoharu Gotoru	2016	2
+one punch man	400	one	2009	3
+death note	000	Tsugumi Ohba	2003	1
+dragon ball	500	Akira Toriyama	1984	1
+fullmetal alchemist	100	Hiromu Arakawa	2001	0
+tokyo ghoul	000	Shi Ishida	2011	2
+hunter x hunter	700	Yoshihiro Togashi	1998	0
+black clover	600	Yuki Tabata	2015	1
+fairy tail	200	Hiro Mashima	2006	1
+sword art online	400	Reki Kawahara	2009	3

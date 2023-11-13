@@ -365,6 +365,7 @@ bool BpTree::PRINT_BP() { // print all information that exists on the data node 
 			flag = 1;
 			break;
 		}
+		test = test->getNext();
 	}
 
 	if(!flag) return false;

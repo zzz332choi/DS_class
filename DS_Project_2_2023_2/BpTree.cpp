@@ -194,7 +194,7 @@ void BpTree::splitIndexNode(BpTreeNode* pIndexNode) { // Function to split index
 	if(excessIndexNode(parent)) splitIndexNode(parent);
 }
 
-BpTreeNode* BpTree::searchDataNode(string name) {
+BpTreeNode* BpTree::searchDataNode(string name) { // search node
 	if (root) {
 
 		BpTreeNode* pCur = root;
@@ -256,7 +256,7 @@ bool BpTree::searchBook(string name) { // search book
 
 }
 
-bool BpTree::searchRange(string start, string end) { // Delete within range
+bool BpTree::searchRange(string start, string end) { // search within range
 	
 	BpTreeNode* ptr = root;
 
@@ -335,66 +335,7 @@ bool BpTree::searchRange(string start, string end) { // Delete within range
 
 }
 
-bool BpTree::Borrowing(string name, BpTreeNode* ptr) {
-
-}
-
-// i don't know...
 void BpTree::Delete(string name) { // Delete data that moves to selection tree
-
-	// if(!root) return; // no data
-
-	// BpTreeNode* ptr = root, *index = nullptr;
-
-	// while(ptr->getMostLeftChild()) { // to data node
-	// 	if(name < ptr->getIndexMap()->begin()->first) ptr = ptr->getMostLeftChild();
-	// 	else {
-	// 		auto it = ptr->getIndexMap()->begin();
-	// 		it++;
-	// 		if(it == ptr->getIndexMap()->end()) { // size of indexmap is 1
-	// 			if(ptr->getIndexMap()->begin()->first == name) index = ptr;
-	// 			ptr = ptr->getIndexMap()->begin()->second;
-	// 		}
-	// 		else {
-	// 			if(name < it->first) {	// size of indexmap is 2
-	// 				if(ptr->getIndexMap()->begin()->first == name) index = ptr;
-	// 				ptr = ptr->getIndexMap()->begin()->second;
-	// 			}
-	// 			else {
-	// 				if(it->first == name) index = ptr;
-	// 				ptr = it->second;
-	// 			}
-	// 		}
-	// 	}
-	// }
-
-	// delete ptr->getDataMap()->find(name)->second; // deallocation
-
-	// // case 1. The key to delete is not on the index node, and is not the first key on the data node
-	// if(name != ptr->getDataMap()->begin()->first && !index) { 
-	// 	ptr->deleteMap(name);
-	// }
-
-	// // case2. If the key to delete is the first key on the data node (if underflow does not occur)
-	// else if(ptr->getDataMap()->size() == 2) { 
-	// 	if(index) {
-	// 		ptr->deleteMap(name);
-	// 		index->insertIndexMap(ptr->getDataMap()->begin()->first, index->getIndexMap()->find(name)->second);
-	// 		index->deleteMap(name);
-	// 	}
-	// 	else {
-	// 		ptr->deleteMap(name);
-	// 	}
-	// }
-
-	// // case2. If the key to delete is the first key on the data node (underflow occurs)
-	// else { 
-	// 	// Borrowing data from sibling nodes
-	// 	if(Borrowing(name, ptr));
-
-	// }
-
-
 
 	BpTreeNode* ptr = searchDataNode(name);
 
@@ -405,9 +346,6 @@ void BpTree::Delete(string name) { // Delete data that moves to selection tree
 	ptr->deleteMap(name);
 
 }
-
-
-
 
 bool BpTree::PRINT_BP() { // print all information that exists on the data node in the B+-tree
 	BpTreeNode* ptr = root;
@@ -427,6 +365,7 @@ bool BpTree::PRINT_BP() { // print all information that exists on the data node 
 			flag = 1;
 			break;
 		}
+		test = test->getNext();
 	}
 
 	if(!flag) return false;

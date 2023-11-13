@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include "Manager.h"
+#include <fstream>
 
 #define endl '\n'
 
@@ -43,6 +44,15 @@ void Manager::run(const char* command)
 		 	fin.getline(str, 100);	 // input book or start & end
 
 		 	char* p = strtok(str, "\t");
+
+			if(!p) {
+				delete[] str;
+				delete[] cmd;
+				cmd = nullptr;
+				printErrorCode(300);
+				continue;
+			}
+
 		 	//char* p = strtok(str, " ");
 		 	string s1;
 		 	s1 = p;
@@ -88,7 +98,13 @@ void Manager::run(const char* command)
 		 	printSuccessCode("EXIT");
 		 	break;
 		 }
+		 // the other command
+		 else {
+			printErrorCode(700);
+		 }
 
+		flog.close();
+		flog.open("log.txt", ios::app);
 
 		delete[] cmd;
 		
@@ -328,4 +344,5 @@ void Manager::printSuccessCode(const char* cmd) {//SUCCESS CODE PRINT
 	flog << "Success" << endl;
 	flog << "====================" << endl << endl;
 }
+
 
