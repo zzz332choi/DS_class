@@ -67,6 +67,6 @@ g++ -std=c++11 -g -o run *.cpp *.h
 ```
 $ ./run
 $ cat log.txt
-==> command 1) LOAD
+==> command 1 LOAD
 Success
 ```

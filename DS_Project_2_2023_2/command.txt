@@ -1,0 +1,62 @@
+LOAD
+PRINT_BP
+ADD	asdfasdfasdfasdfasdf	200	asdf	1999
+ADD asdfasdfasdfasdfasdf	asdf	1999
+SEARCH_BP	aaaaa
+SEARCH_BP	bbbbb
+SEARCH_BP	ccccc
+SEARCH_BP	ddddd
+SEARCH_BP	eeeee
+SEARCH_BP	fffff
+SEARCH_BP	ggggg
+SEARCH_BP	hhhhh
+SEARCH_BP	iiiii
+SEARCH_BP	jjjjj
+SEARCH_BP	kkkkk
+SEARCH_BP	lllll
+SEARCH_BP	mmmmm
+SEARCH_BP	nnnnn
+SEARCH_BP	ooooo
+SEARCH_BP	ppppp
+SEARCH_BP	qqqqq
+SEARCH_BP	rrrrr
+SEARCH_BP	sssss
+SEARCH_BP	ttttt
+SEARCH_BP	uuuuu
+SEARCH_BP	vvvvv
+SEARCH_BP	wwwww
+SEARCH_BP	xxxxx
+SEARCH_BP	yyyyy
+SEARCH_BP	zzzzz
+SEARCH_BP	asdfasdfasdfasdfa
+SEARCH_BP	b	e
+SEARCH_BP	aaaaaaaaaaaaaaa	abbbbbbbbbbbbb
+ADD	lllll	000	lll	1999
+SEARCH_BP	lllll
+ADD	lllll	000
+SEARCH_BP	lllll
+ADD	lllll	000	lll	1999
+SEARCH_BP	lllll
+ADD	lllll	000	lll	1999
+SEARCH_BP	lllll
+ADD	zzzzz	300	zzz	1999
+ADD	ttttt	300	ttt	1999
+PRINT_ST	000
+PRINT_ST	100
+PRINT_ST	200
+PRINT_ST	300
+PRINT_ST	400
+PRINT_ST	500
+PRINT_ST	600
+PRINT_ST	700
+DELETE
+PRINT_ST	000
+PRINT_ST	300
+DELETE
+PRINT_ST	000
+PRINT_ST	300
+DELETE
+PRINT_ST	300
+DELETE
+PRINT_BP
+EXIT

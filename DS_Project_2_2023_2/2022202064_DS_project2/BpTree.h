@@ -32,7 +32,6 @@ public:
 	bool searchRange(string start, string end);
 
 	void 		Delete(string name);
-	bool 		Borrowing(string name, BpTreeNode* ptr);
 	bool		PRINT_BP();
 	void		DELETE_ALL_NODES();
 };
