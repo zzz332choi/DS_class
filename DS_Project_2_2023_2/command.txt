@@ -1,26 +1,47 @@
+SEARCH_BP	moby dick
 LOAD
 LOAD
-ERROR
-ADD	frieren: beyond journey's end	100	Abe tksukasa	2020
-ADD	jojo's bizarre adventure	100	Araki Hirohiko	1987
-ADD	error_book	000	author name	2023
-ADD	attack on titan	700	Hajime Isayama	2009
-ADD	goblin slayer	500	Kumo Kagyu	2016
-SEARCH_BP	error_book_name
-SEARCH_BP
 PRINT_BP
+ADD	the stranger	200	albert camus	1942
+ADD	anne of green gables	200	lucy maud montgomery	1903
+ADD	snow country	200	yasunari kawabata	1937
+PRINT_BP
+ADD	anne of green gables	200	lucy maud montgomery	1903
+ADD	snow country	200	yasunari kawabata	1937
+PRINT_BP
+ADD	anne of green gables	200	lucy maud montgomery	1903
+ADD	the stranger	200	albert camus	1942
+ADD	the stranger	200	albert camus	1942
+ADD	in search of lost time	200	marcel proust	1927
+ADD	in search of lost time	200	marcel proust	1927
+ADD	in search of lost time	200	marcel proust	1927
+ADD	snow country	200	yasunari kawabata	1937
+PRINT_BP
+ADD	anne of green gables	200	lucy maud montgomery	1903
+PRINT_BP
+SEARCH_BP	moby dick
+SEARCH_BP	fairytale
+SEARCH_BP	c	g
+SEARCH_BP	a	c
+SEARCH_BP	b	c
+ADD	gulliver's travels	600	jonathan swift	1726
+ADD	gulliver's travels	600	jonathan swift	1726
+PRINT_ST	200
 PRINT_ST	100
-PRINT_ST	987
-PRINT_ST	400
-PRINT_ST	700
+PRINT_ST	600
 DELETE
-PRINT_ST	100
-PRINT_ST	700
+PRINT_ST	200
 DELETE
-PRINT_ST	100
-PRINT_ST	700
+PRINT_ST	200
 DELETE
-PRINT_ST	100
-PRINT_ST	700
+PRINT_ST	200
 DELETE
+PRINT_ST	200
+ADD	die verwandlung	200	franz kafka	1915
+ADD	die verwandlung	200	franz kafka	1915
+ADD	die verwandlung	200	franz kafka	1915
+PRINT_ST	200
+DELETE
+PRINT_ST	200
 EXIT
+

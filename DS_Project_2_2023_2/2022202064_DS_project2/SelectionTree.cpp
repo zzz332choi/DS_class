@@ -158,35 +158,41 @@ bool SelectionTree::printBookData(int bookCode) { // print all data from Heap co
 
     if (!heap) return false; // no heap
   
-    vector <LoanBookData*> v;
+    map<string , LoanBookData*> m;
+    queue <LoanBookHeapNode*> q;
+    q.push(heap->getRoot());
 
-    while (heap->getRoot()) { // Store heap information in vectors
-        LoanBookData* data = new LoanBookData(heap->getRoot()->getBookData()); // copy data from heap to vector
-        v.push_back(data); // push info
-        heap->Delete(); // delete operation 
+    LoanBookHeapNode* heapnode = q.front();
+
+    while(heapnode) {
+        m.insert({heapnode->getBookData()->getName(), heapnode->getBookData()});
+
+        if(heapnode->getLeftChild()) q.push(heapnode->getLeftChild());
+        if(heapnode->getRightChild()) q.push(heapnode->getRightChild());
+
+        if(q.empty()) break;
+
+        heapnode =q.front();
+        q.pop();
     }
 
-    if (v.empty()) return false; // no data
-
+    if(!m.size()) return false;
+    
     *fout << "========PRINT_ST========" << endl;
 
-    
+     
     // print 
-    while (!v.empty()) {
-        if (v[0]->getCode()) {
-            *fout << v[0]->getName() << '/' << v[0]->getCode() << '/'
-                << v[0]->getAuthor() << '/' << v[0]->getYear() << '/'
-                << v[0]->getLoanCount() << endl;
+    for (auto iter = m.begin(); iter != m.end(); iter++) {
+        if (iter->second->getCode()) {
+            *fout << iter->second->getName() << '/' << iter->second->getCode() << '/'
+                << iter->second->getAuthor() << '/' << iter->second->getYear() << '/'
+                << iter->second->getLoanCount() << endl;
         }
         else {
-            *fout << v[0]->getName() << '/' << "000" << '/'
-                << v[0]->getAuthor() << '/' << v[0]->getYear() << '/'
-                << v[0]->getLoanCount() << endl;
+            *fout << iter->second->getName() << '/' << "000" << '/'
+                << iter->second->getAuthor() << '/' << iter->second->getYear() << '/'
+                << iter->second->getLoanCount() << endl;
         }
-
-        // insert heap
-        heap->Insert(v[0]);
-        v.erase(v.begin());
     }
 
     *fout << "==========================" << endl << endl;

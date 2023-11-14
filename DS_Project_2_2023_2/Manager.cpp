@@ -2,6 +2,7 @@
 
 #include "Manager.h"
 #include <fstream>
+#include <cstring>
 
 #define endl '\n'
 
@@ -120,42 +121,44 @@ bool Manager::LOAD() // Functions to load data
 
 	if(!load_data || bptree->getRoot() || stree->getRoot()) return false;
 
+	string str;
+
 	while(!load_data.eof()) {
+		getline(load_data, str);
 
-		char* str = new char [100];
-		str[0] = 0; // init
+     	int tab = 0; 
+      	int pos = 0;   //start point
 
-		load_data.getline(str, 100);
-		str[strlen(str)] = 0;
+      	tab = str.find("\t");   //find tab
+      	string name = str.substr(pos, tab - pos);   //copy name
+      	pos = tab + 1;   //find next character
+         	
+      	tab = str.find("\t", pos);   //find next tab
+      	int  code = atoi((str.substr(pos, tab - pos)).c_str());
+      	pos = tab + 1;
+        	
+      	tab = str.find("\t", pos);   //find next tab
+      	string  author(str.substr(pos, tab - pos));   //copy author
+      	pos = tab + 1;
+      	
+      	tab = str.find("\t", pos);   //find next tab
+      	int  year = atoi((str.substr(pos, tab - pos)).c_str()); // year
+      	pos = tab + 1;
+      	
+      	int  loan_count = atoi((str.substr(pos)).c_str()); // loan_count
 
-		char* p = strtok(str, "\t");
-		string name;
-		name = p;
+		LoanBookData* data = new LoanBookData();
+		data->setBookData(name, code, author, year, loan_count);
 
-		p = strtok(NULL, "\t");
-		int code = atoi(p);
+		//cout << name << ' ' << code << ' ' << author <<' ' << year << ' ' << loan_count << endl;
 
-		p = strtok(NULL, "\t");
-		string author;
-		author = p;
-
-		p = strtok(NULL, "\t");
-		int year = atoi(p);
-
-		p = strtok(NULL, "\t");
-		int loan_count = atoi(p);
-
-		LoanBookData* newData = new LoanBookData();
-		newData->setBookData(name, code, author, year, loan_count);
-
-		bptree->Insert(newData); // insert new data
-		
-		delete[] str;
+		bptree->Insert(data); // insert
 	}
 
 	load_data.close();
 	return true;
 }
+
 
 bool Manager::ADD() { // Functions to add data
 
