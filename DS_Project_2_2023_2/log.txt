@@ -632,3 +632,320 @@ the stranger/200/albert camus/1942/3
 Success
 ====================
 
+========ERROR========
+300
+======================
+
+========LOAD========
+Success
+====================
+
+========ERROR========
+100
+======================
+
+========PRINT_BP========
+adventures of huckleberry finn/300/mark twain/1884/0
+attack of titan/000/hajime isayama/2009/0
+demian/200/hermann hesse/1919/0
+demons/300/fyodor dostoevsky/1871/0
+die blechtrommel/100/gunter grass/1959/0
+die verwandlung/200/franz kafka/1915/0
+don quixote/700/miguel de cervantes/1605/0
+ensaio sobre a cegueira/100/jose saramago/1995/0
+et dukkehjem/300/henrik johan ibsen/1879/0
+goethes faust/400/johann wolfgang von goethe/1831/0
+great expectations/300/charles dickens/1861/0
+gulliver's travels/600/jonathan swift/1726/0
+in search of lost time/200/marcel proust/1927/0
+king lear/700/william shakespeare/1608/0
+lolita/100/vladimir nabokov/1955/0
+lord of the flies/100/william golding/1954/0
+moby dick/300/herman melville/1851/0
+othello/700/william shakespeare/1604/0
+pride and prejudice/400/jane austen/1813/0
+sapiens/000/yuval noah harari/2014/0
+snow country/200/yasunari kawabata/1937/0
+the old man and the sea/100/ernest hemingway/1952/0
+the stranger/200/albert camus/1942/0
+the tragedy of hamlet/700/william shakespeare/1601/0
+wuthering heights/400/emily bronte/1847/0
+==========================
+
+========ADD========
+the stranger/200/albert camus/1942
+====================
+
+========ADD========
+anne of green gables/200/lucy maud montgomery/1903
+====================
+
+========ADD========
+snow country/200/yasunari kawabata/1937
+====================
+
+========PRINT_BP========
+adventures of huckleberry finn/300/mark twain/1884/0
+anne of green gables/200/lucy maud montgomery/1903/0
+attack of titan/000/hajime isayama/2009/0
+demian/200/hermann hesse/1919/0
+demons/300/fyodor dostoevsky/1871/0
+die blechtrommel/100/gunter grass/1959/0
+die verwandlung/200/franz kafka/1915/0
+don quixote/700/miguel de cervantes/1605/0
+ensaio sobre a cegueira/100/jose saramago/1995/0
+et dukkehjem/300/henrik johan ibsen/1879/0
+goethes faust/400/johann wolfgang von goethe/1831/0
+great expectations/300/charles dickens/1861/0
+gulliver's travels/600/jonathan swift/1726/0
+in search of lost time/200/marcel proust/1927/0
+king lear/700/william shakespeare/1608/0
+lolita/100/vladimir nabokov/1955/0
+lord of the flies/100/william golding/1954/0
+moby dick/300/herman melville/1851/0
+othello/700/william shakespeare/1604/0
+pride and prejudice/400/jane austen/1813/0
+sapiens/000/yuval noah harari/2014/0
+snow country/200/yasunari kawabata/1937/1
+the old man and the sea/100/ernest hemingway/1952/0
+the stranger/200/albert camus/1942/1
+the tragedy of hamlet/700/william shakespeare/1601/0
+wuthering heights/400/emily bronte/1847/0
+==========================
+
+========ADD========
+anne of green gables/200/lucy maud montgomery/1903
+====================
+
+========ADD========
+snow country/200/yasunari kawabata/1937
+====================
+
+========PRINT_BP========
+adventures of huckleberry finn/300/mark twain/1884/0
+anne of green gables/200/lucy maud montgomery/1903/1
+attack of titan/000/hajime isayama/2009/0
+demian/200/hermann hesse/1919/0
+demons/300/fyodor dostoevsky/1871/0
+die blechtrommel/100/gunter grass/1959/0
+die verwandlung/200/franz kafka/1915/0
+don quixote/700/miguel de cervantes/1605/0
+ensaio sobre a cegueira/100/jose saramago/1995/0
+et dukkehjem/300/henrik johan ibsen/1879/0
+goethes faust/400/johann wolfgang von goethe/1831/0
+great expectations/300/charles dickens/1861/0
+gulliver's travels/600/jonathan swift/1726/0
+in search of lost time/200/marcel proust/1927/0
+king lear/700/william shakespeare/1608/0
+lolita/100/vladimir nabokov/1955/0
+lord of the flies/100/william golding/1954/0
+moby dick/300/herman melville/1851/0
+othello/700/william shakespeare/1604/0
+pride and prejudice/400/jane austen/1813/0
+sapiens/000/yuval noah harari/2014/0
+snow country/200/yasunari kawabata/1937/2
+the old man and the sea/100/ernest hemingway/1952/0
+the stranger/200/albert camus/1942/1
+the tragedy of hamlet/700/william shakespeare/1601/0
+wuthering heights/400/emily bronte/1847/0
+==========================
+
+========ADD========
+anne of green gables/200/lucy maud montgomery/1903
+====================
+
+========ADD========
+the stranger/200/albert camus/1942
+====================
+
+========ADD========
+the stranger/200/albert camus/1942
+====================
+
+========ADD========
+in search of lost time/200/marcel proust/1927
+====================
+
+========ADD========
+in search of lost time/200/marcel proust/1927
+====================
+
+========ADD========
+in search of lost time/200/marcel proust/1927
+====================
+
+========ADD========
+snow country/200/yasunari kawabata/1937
+====================
+
+========PRINT_BP========
+adventures of huckleberry finn/300/mark twain/1884/0
+anne of green gables/200/lucy maud montgomery/1903/2
+attack of titan/000/hajime isayama/2009/0
+demian/200/hermann hesse/1919/0
+demons/300/fyodor dostoevsky/1871/0
+die blechtrommel/100/gunter grass/1959/0
+die verwandlung/200/franz kafka/1915/0
+don quixote/700/miguel de cervantes/1605/0
+ensaio sobre a cegueira/100/jose saramago/1995/0
+et dukkehjem/300/henrik johan ibsen/1879/0
+goethes faust/400/johann wolfgang von goethe/1831/0
+great expectations/300/charles dickens/1861/0
+gulliver's travels/600/jonathan swift/1726/0
+king lear/700/william shakespeare/1608/0
+lolita/100/vladimir nabokov/1955/0
+lord of the flies/100/william golding/1954/0
+moby dick/300/herman melville/1851/0
+othello/700/william shakespeare/1604/0
+pride and prejudice/400/jane austen/1813/0
+sapiens/000/yuval noah harari/2014/0
+the old man and the sea/100/ernest hemingway/1952/0
+the tragedy of hamlet/700/william shakespeare/1601/0
+wuthering heights/400/emily bronte/1847/0
+==========================
+
+========ADD========
+anne of green gables/200/lucy maud montgomery/1903
+====================
+
+========PRINT_BP========
+adventures of huckleberry finn/300/mark twain/1884/0
+attack of titan/000/hajime isayama/2009/0
+demian/200/hermann hesse/1919/0
+demons/300/fyodor dostoevsky/1871/0
+die blechtrommel/100/gunter grass/1959/0
+die verwandlung/200/franz kafka/1915/0
+don quixote/700/miguel de cervantes/1605/0
+ensaio sobre a cegueira/100/jose saramago/1995/0
+et dukkehjem/300/henrik johan ibsen/1879/0
+goethes faust/400/johann wolfgang von goethe/1831/0
+great expectations/300/charles dickens/1861/0
+gulliver's travels/600/jonathan swift/1726/0
+king lear/700/william shakespeare/1608/0
+lolita/100/vladimir nabokov/1955/0
+lord of the flies/100/william golding/1954/0
+moby dick/300/herman melville/1851/0
+othello/700/william shakespeare/1604/0
+pride and prejudice/400/jane austen/1813/0
+sapiens/000/yuval noah harari/2014/0
+the old man and the sea/100/ernest hemingway/1952/0
+the tragedy of hamlet/700/william shakespeare/1601/0
+wuthering heights/400/emily bronte/1847/0
+==========================
+
+========ERROR========
+300
+======================
+
+========ERROR========
+300
+======================
+
+========SEARCH_BP========
+demian/200/hermann hesse/1919/0
+demons/300/fyodor dostoevsky/1871/0
+die blechtrommel/100/gunter grass/1959/0
+die verwandlung/200/franz kafka/1915/0
+don quixote/700/miguel de cervantes/1605/0
+ensaio sobre a cegueira/100/jose saramago/1995/0
+et dukkehjem/300/henrik johan ibsen/1879/0
+==========================
+
+========SEARCH_BP========
+adventures of huckleberry finn/300/mark twain/1884/0
+attack of titan/000/hajime isayama/2009/0
+==========================
+
+========ERROR========
+300
+======================
+
+========ADD========
+gulliver's travels/600/jonathan swift/1726
+====================
+
+========ADD========
+gulliver's travels/600/jonathan swift/1726
+====================
+
+========PRINT_ST========
+anne of green gables/200/lucy maud montgomery/1903/3
+in search of lost time/200/marcel proust/1927/3
+snow country/200/yasunari kawabata/1937/3
+the stranger/200/albert camus/1942/3
+==========================
+
+========ERROR========
+500
+======================
+
+========PRINT_ST========
+gulliver's travels/600/jonathan swift/1726/2
+==========================
+
+========DELETE========
+Success
+====================
+
+========PRINT_ST========
+in search of lost time/200/marcel proust/1927/3
+snow country/200/yasunari kawabata/1937/3
+the stranger/200/albert camus/1942/3
+==========================
+
+========DELETE========
+Success
+====================
+
+========PRINT_ST========
+in search of lost time/200/marcel proust/1927/3
+snow country/200/yasunari kawabata/1937/3
+the stranger/200/albert camus/1942/3
+==========================
+
+========DELETE========
+Success
+====================
+
+========PRINT_ST========
+snow country/200/yasunari kawabata/1937/3
+the stranger/200/albert camus/1942/3
+==========================
+
+========DELETE========
+Success
+====================
+
+========PRINT_ST========
+the stranger/200/albert camus/1942/3
+==========================
+
+========ADD========
+die verwandlung/200/franz kafka/1915
+====================
+
+========ADD========
+die verwandlung/200/franz kafka/1915
+====================
+
+========ADD========
+die verwandlung/200/franz kafka/1915
+====================
+
+========PRINT_ST========
+die verwandlung/200/franz kafka/1915/3
+the stranger/200/albert camus/1942/3
+==========================
+
+========DELETE========
+Success
+====================
+
+========PRINT_ST========
+the stranger/200/albert camus/1942/3
+==========================
+
+========EXIT========
+Success
+====================
+

@@ -129,22 +129,22 @@ bool Manager::LOAD() // Functions to load data
      	int tab = 0; 
       	int pos = 0;   //start point
 
-      	tab = str.find("\t");   //find tab
+      	tab = str.find("\t");	//find tab
       	string name = str.substr(pos, tab - pos);   //copy name
-      	pos = tab + 1;   //find next character
-         	
-      	tab = str.find("\t", pos);   //find next tab
+
+      	pos = tab + 1;
+      	tab = str.find("\t", pos);	//find tab
       	int  code = atoi((str.substr(pos, tab - pos)).c_str());
-      	pos = tab + 1;
-        	
-      	tab = str.find("\t", pos);   //find next tab
+
+      	pos = tab + 1;        	
+      	tab = str.find("\t", pos);	//find tab
       	string  author(str.substr(pos, tab - pos));   //copy author
-      	pos = tab + 1;
       	
-      	tab = str.find("\t", pos);   //find next tab
+		pos = tab + 1;
+      	tab = str.find("\t", pos);	//find tab
       	int  year = atoi((str.substr(pos, tab - pos)).c_str()); // year
-      	pos = tab + 1;
       	
+		pos = tab + 1;      	
       	int  loan_count = atoi((str.substr(pos)).c_str()); // loan_count
 
 		LoanBookData* data = new LoanBookData();
