@@ -51,7 +51,7 @@ void Manager::run(const char* command_txt){
 			else printErrorCode(100);
 		}
 		else if(cmd.find("PRINT") != string::npos) {
-
+			if(!PRINT()) printErrorCode(200);
 		}
 		else if(cmd.find("BFS") != string::npos) {
 
@@ -97,14 +97,51 @@ bool Manager::LOAD(const char* filename)
 	char type;
 	data >> type;
 
+	int size;
+	data >> size;
+
 	if(graph) delete graph;
 
 	if(type == 'L') { // graph_L
+		graph = new ListGraph(0, size);
 
+		string str;
+		int from;
+
+		while(getline(data, str)) {
+			if(str.find(" ") != string::npos) {
+				from = stoi(str);
+			}
+			else {
+				int to, weight;
+				int pos = str.find(" ");
+
+				to = stoi(str.substr(0, pos++));
+				weight = stoi(str.substr(pos));
+
+				graph->insertEdge(from, to, weight);
+			}
+		}
 	}
 
 	else {	// graph_M
+		graph = new MatrixGraph(1, size);
 
+		string str;
+		int from = 0;
+
+		while(getline(data, str)) {
+			int to = 0;
+			int pos= 0;
+
+			while(str.find(" ", pos) != string::npos) {
+				int index = str.find(" ", pos);
+				int weight = stoi(str.substr(pos, index-pos));
+				graph->insertEdge(from, to++, weight);
+				pos++;
+			}
+			from++;
+		}
 	}
 
 	return true;
@@ -112,7 +149,10 @@ bool Manager::LOAD(const char* filename)
 
 bool Manager::PRINT()	
 {
+	if(!graph) return false;
 
+	if(!graph->printGraph(&fout)) return false;
+	else return  true;
 }
 
 bool Manager::mBFS(char option, int vertex)	
