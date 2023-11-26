@@ -12,7 +12,23 @@ using namespace std;
 
 bool BFS(Graph* graph, char option, int vertex)
 {
-   
+    // The vertex you entered does not exist in the graph
+    if(vertex > graph->getSize()) return false; 
+
+    queue <int> q;
+    vector <int> v;
+    bool* visited = new bool [graph->getSize()];
+    fill(&visited, &visited + graph->getSize(), false); // init
+
+    if (!graph->getType()) { // list type
+
+    }
+
+    else { // matrix type
+    
+    }
+
+   delete[] visited;
 }
 
 bool DFS(Graph* graph, char option, int vertex)

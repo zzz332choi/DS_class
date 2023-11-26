@@ -50,11 +50,29 @@ void Manager::run(const char* command_txt){
 			}
 			else printErrorCode(100);
 		}
+		// print command
 		else if(cmd.find("PRINT") != string::npos) {
 			if(!PRINT()) printErrorCode(200);
 		}
-		else if(cmd.find("BFS") != string::npos) {
 
+		// BFS command
+		else if(cmd.find("BFS") != string::npos) {
+			int pos = cmd.find(" "); // position of blank
+			int index = pos+ 1;	
+			
+			// If vertex is not entered
+			if(cmd.find(" ", index) == string::npos) {
+				printErrorCode(300);
+				continue;
+			}
+
+			char d = cmd[index];
+			pos = cmd.find(" ", index);
+			pos++;
+
+			int v = stoi(cmd.substr(pos));
+
+			if(!mBFS(d, v)) printErrorCode(300);
 		}
 		else if(cmd.find("DFS") != string::npos) {
 
@@ -157,7 +175,10 @@ bool Manager::PRINT()
 
 bool Manager::mBFS(char option, int vertex)	
 {
-	
+	if(!graph) return false;
+
+	if(BFS(graph, option, vertex)) return true;
+	else return false;
 }
 
 bool Manager::mDFS(char option, int vertex)	

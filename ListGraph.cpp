@@ -4,12 +4,12 @@
 
 ListGraph::ListGraph(bool type, int size) : Graph(type, size)
 {
-	m_List = new map<int, int> [size + 1];
+	m_List = new map<int, int> [size];
 }
 
 ListGraph::~ListGraph()	
 {
-	delete m_List;
+	delete[] m_List;
 }
 
 void ListGraph::getAdjacentEdges(int vertex, map<int, int>* m)	 //Definition of getAdjacentEdges(No Direction == Undirected)
@@ -24,7 +24,7 @@ void ListGraph::getAdjacentEdgesDirect(int vertex, map<int, int>* m)	//Definitio
 
 void ListGraph::insertEdge(int from, int to, int weight) //Definition of insertEdge
 {
-	m_List[from].insert(to, weight);
+	m_List[from - 1].insert(to, weight);
 }
 
 bool ListGraph::printGraph(ofstream *fout)	//Definition of print Graph
@@ -33,8 +33,8 @@ bool ListGraph::printGraph(ofstream *fout)	//Definition of print Graph
 
     *fout << "========PRINT========" << endl;
 
-    for(int i = 1; i<=getSize(); i++) {
-        *fout << '[' << i << ']';
+    for(int i = 0; i < getSize(); i++) {
+        *fout << '[' << i + 1 << ']';
 
         for(auto iter = m_List[i].begin(); iter != m_List[i].end(); iter++)
             *fout << " -> (" << iter->first << ',' << iter->second << ')'; 
