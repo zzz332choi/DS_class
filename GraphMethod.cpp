@@ -18,7 +18,7 @@ bool BFS(Graph* graph, char option, int vertex)
     queue <int> q;
     vector <int> v;
     bool* visited = new bool [graph->getSize()];
-    fill(&visited, &visited + graph->getSize(), false); // init
+    fill(&visited[0], &visited[0] + graph->getSize(), false); // init
 
     if (!graph->getType()) { // list type
 

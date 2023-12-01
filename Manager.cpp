@@ -112,18 +112,20 @@ bool Manager::LOAD(const char* filename)
 	// If a text file does not exist
 	if(!data) return false;
 
-	char type;
-	data >> type;
+	string str;
+	if(!getline(data, str)) return false; // file is empty
+	
+	char type = str[0];
 
-	int size;
-	data >> size;
+	getline(data, str);
+
+	int size = stoi(str);
 
 	if(graph) delete graph;
 
 	if(type == 'L') { // graph_L
 		graph = new ListGraph(0, size);
 
-		string str;
 		int from;
 
 		while(getline(data, str)) {
