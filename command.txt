@@ -1,2 +1,7 @@
 LOAD graph_L.txt
 PRINT
+BFS Y 3
+BFS N 3
+DFS Y 3
+DFS N 3
+KRUSKAL

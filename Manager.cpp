@@ -35,7 +35,7 @@ void Manager::run(const char* command_txt){
 		// load command
 		if(cmd.find("LOAD") != string::npos) {
 			// If the factor is insufficient
-			if(cmd.find(" ") != string::npos) {
+			if(cmd.find(" ") == string::npos) {
 				printErrorCode(100);
 				continue;
 			}
@@ -75,10 +75,26 @@ void Manager::run(const char* command_txt){
 			if(!mBFS(d, v)) printErrorCode(300);
 		}
 		else if(cmd.find("DFS") != string::npos) {
+			int pos = cmd.find(" "); // position of blank
+			int index = pos + 1;
 
+			// If vertex is not entered
+			if (cmd.find(" ", index) == string::npos) {
+				printErrorCode(400);
+				continue;
+			}
+
+			char d = cmd[index];
+			pos = cmd.find(" ", index);
+			pos++;
+
+			int v = stoi(cmd.substr(pos));
+
+			if (!mDFS(d, v)) printErrorCode(400);
 		}
 		else if(cmd.find("KRUSKAL") != string::npos) {
-
+			if (mKRUSKAL()); // success
+			else printErrorCode(500); // fail
 		}
 		else if(cmd.find("DIJKSTRA") != string::npos) {
 
@@ -126,10 +142,10 @@ bool Manager::LOAD(const char* filename)
 	if(type == 'L') { // graph_L
 		graph = new ListGraph(0, size);
 
-		int from;
+		int from = 0;
 
 		while(getline(data, str)) {
-			if(str.find(" ") != string::npos) {
+			if(str.find(" ") == string::npos) {
 				from = stoi(str);
 			}
 			else {
@@ -158,8 +174,15 @@ bool Manager::LOAD(const char* filename)
 				int index = str.find(" ", pos);
 				int weight = stoi(str.substr(pos, index-pos));
 				graph->insertEdge(from, to++, weight);
-				pos++;
+				pos = index + 1;
 			}
+
+			// last vertex
+			int index = str.find(" ", pos);
+			int weight = stoi(str.substr(pos, index - pos));
+			graph->insertEdge(from, to++, weight);
+			pos = index + 1;
+
 			from++;
 		}
 	}
@@ -179,37 +202,41 @@ bool Manager::mBFS(char option, int vertex)
 {
 	if(!graph) return false;
 
-	if(BFS(graph, option, vertex)) return true;
+	if(BFS(graph, option, vertex, &fout)) return true;
 	else return false;
 }
 
 bool Manager::mDFS(char option, int vertex)	
 {
-	
+	if (!graph) return false;
+
+	if (DFS(graph, option, vertex, &fout)) return true;
+	else return false;
 }
 
 bool Manager::mDIJKSTRA(char option, int vertex)	
 {
-	
+	return true;
 }
 
 bool Manager::mKRUSKAL()
 {
- 	
+	if (Kruskal(graph, &fout)) return true;
+	else return false;
 }
 
 bool Manager::mBELLMANFORD(char option, int s_vertex, int e_vertex) 
 {
-	
+	return true;
 }
 
 bool Manager::mFLOYD(char option)
 {
-	
+	return true;
 }
 
 bool Manager::mKwoonWoon(int vertex) {
-	
+	return true;
 }
 
 void Manager::printErrorCode(int n)

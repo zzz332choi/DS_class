@@ -5,8 +5,8 @@
 
 class ListGraph : public Graph{	
 private:
-	map < int, int >* m_List;
-	vector<int>* kw_graph;
+	map < int, int >* m_List = nullptr;
+	vector<int>* kw_graph = nullptr;
 	
 public:	
 	ListGraph(bool type, int size);
@@ -17,6 +17,9 @@ public:
 	void insertEdge(int from, int to, int weight);	
 	bool printGraph(ofstream *fout);
 
+
+	//my
+	void RegetAdjacentEdgesDirect(int vertex, multimap<int, int>* m);
 };
 
 #endif
