@@ -8,6 +8,8 @@
 #include <list>
 #include <utility>
 #include <fstream>
+#include <cstring>
+#include <algorithm>
 
 using namespace std;
 
@@ -149,22 +151,80 @@ bool DFS(Graph* graph, char option, int vertex, ofstream* fout)
 
 bool Kruskal(Graph* graph, ofstream* fout)
 {
- 
-    int* parent = new int[graph->getSize() + 1];
-    memset(parent, -1, sizeof(int) * (graph->getSize() + 1)); // initialization
+    if (!graph) return false;
+
+    if (!graph->getSize()) return false;
+
+    vector <W> v;
+
+    map<int, int>* m = new map<int, int>[graph->getSize()];
+
+    for (int i = 1; i <= graph->getSize(); i++) {
+        graph->getAdjacentEdges(i, m + (i - 1));
+        for (auto it = m[i - 1].begin(); it != m[i - 1].end(); it++) {
+            if(it->second) v.push_back({ it->second, i, it->first });
+        }
+    }
+    
+    quicksort(v, 0, v.size() - 1);
+     
+    int* parent = new int[(graph->getSize() + 1)];
+    memset(parent, -1, sizeof(int) * ((graph->getSize() + 1))); // initialization
 
     int cost = 0;
 
     map<int, int>* sol = new map<int, int>[graph->getSize()];
+ 
+    int edges = 0;// , prev_edges = 0;
 
-    int edges = 0;
+    while (edges < v.size()) {
+        W e = v[edges];
 
-    while (edges < graph->getSize()) {
+        int S = e.s; // start
+        int E = e.e; // end
         
+        // find set?
+        int p = simplefind(parent, S);
+        int q = simplefind(parent, E);
+
+        if (p != q) { // Cycle not formed
+            simpleunion(parent, S, E); // union
+            sol[S - 1].insert({ E, e.w });
+            sol[E - 1].insert({ S, e.w });
+            cost += e.w;
+        }
+
+        edges++;
+
+        if (!check(parent)) break; // found mst
+    }
+
+    if (check(parent)) { // fault
+        delete[] parent;
+        delete[] m;
+        delete[] sol;
+
+        return false;
+    }
+
+    *fout << "======= Kruskal =======" << endl;
+
+    for (int i = 0; i < graph->getSize(); i++) {
+        *fout << '[' << i + 1 << "]     ";
+
+        for (auto it = sol[i].begin(); it != sol[i].end(); it++) {
+            *fout << it->first << '(' << it->second << ')';
+        }
+
+        *fout << endl;
     }
 
 
+    *fout << "cost: " << cost << endl;
+    *fout << "=====================" << endl;
+
     delete[] parent;
+    delete[] m;
     delete[] sol;
 
     return true;
@@ -193,7 +253,7 @@ int collapsingfind(int* parent, int i)
     // Use the collapsing rule to collapse all nodes from i to the root.
     int r = i;
     for (; parent[r] >= 0; r = parent[r]); // find root
-    while (i != r) {
+    while (i != r) { // collapse
         int s = parent[i];
         parent[i] = r;
         i = s;
@@ -216,13 +276,62 @@ void weightedunion(int* parent, int i, int j)
     }
 }
 
+int simplefind(int* parent, int i)
+{
+    while (parent[i] >= 0) i = parent[i];
+    return i;
+}
+
+void simpleunion(int* parent, int i, int j)
+{
+    parent[i] = j;
+}
+
 bool check(int* parent)
 {
     int cnt = 0;
-    for (int i = 1; i <= sizeof(parent) / sizeof(int); i++) {
-        if (parent[i] == -1) cnt++;
+    for (int i = 1; i < sizeof(parent); i++) {
+        if (parent[i] < 0) cnt++;
     }
     return cnt != 1;
+}
+
+void quicksort(vector<W>& arr, int low, int high)
+{
+    if (low < high) {
+        if (high - low + 1 <= 6) // sement_size is 6
+            insertionsort(arr, low, high);
+
+        else {
+            int i = low;
+            int j = high + 1;
+            W pivot = arr[low];
+            do {
+                do i++;  while (arr[i].w < pivot.w);
+                do j--;  while (arr[j].w > pivot.w);
+                if (i < j) swap(arr[i], arr[j]);
+            } while (i < j);
+            swap(arr[low], arr[j]);
+
+            quicksort(arr, low, j - 1);
+            quicksort(arr, j + 1, high);
+        }
+    }
+}
+
+void insertionsort(vector<W>& arr, int low, int high)
+{
+    for (int i = low + 1; i <= high; i++) {
+        int j = i - 1;
+        W key = arr[i];
+
+        while (j >= low && key.w < arr[j].w) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+
+        arr[j + 1] = key;
+    }
 }
 
 bool KWANGWOON(Graph* graph, int vertex, ofstream* fout) {
