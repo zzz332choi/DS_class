@@ -25,7 +25,8 @@ void MatrixGraph::getAdjacentEdges(int vertex, map<int, int>* m)
 {	
     for (int i = 0; i < this->getSize(); i++) {
         if (m_Mat[vertex - 1][i] || m_Mat[i][vertex - 1]) { // If the weight is non-zero
-            m->insert({ i + 1, m_Mat[vertex - 1][i] });
+            if (m_Mat[vertex - 1][i]) m->insert({ i + 1, m_Mat[vertex - 1][i] });
+            else m->insert({ i + 1, m_Mat[i][vertex - 1] });
         }
     }
 }
@@ -50,7 +51,7 @@ bool MatrixGraph::printGraph(ofstream *fout)
 
     *fout << "========PRINT========" << endl;
 
-    *fout << "\t  ";
+    *fout << "\t   ";
 
     for(int i = 1; i <= getSize(); i++) *fout << '[' << i << "] ";
 

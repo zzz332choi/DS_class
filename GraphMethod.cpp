@@ -151,7 +151,6 @@ bool DFS(Graph* graph, char option, int vertex, ofstream* fout)
 
 bool Kruskal(Graph* graph, ofstream* fout)
 {
-    if (!graph) return false;
 
     if (!graph->getSize()) return false;
 
@@ -166,6 +165,7 @@ bool Kruskal(Graph* graph, ofstream* fout)
         }
     }
     
+    // sort
     quicksort(v, 0, v.size() - 1);
      
     int* parent = new int[(graph->getSize() + 1)];
@@ -176,6 +176,19 @@ bool Kruskal(Graph* graph, ofstream* fout)
     map<int, int>* sol = new map<int, int>[graph->getSize()];
  
     int edges = 0;// , prev_edges = 0;
+    int cnt = 0;
+
+    for (int i = 0; i < graph->getSize(); i++) {
+        for (auto it = m[i].begin(); it != m[i].end(); it++) {
+            if (it->second < 0) { // Negative Weight Found
+                // deallocation
+                delete[] parent;
+                delete[] sol;
+                delete[] m;
+                return false;
+            }
+        }
+    }
 
     while (edges < v.size()) {
         W e = v[edges];
@@ -184,22 +197,26 @@ bool Kruskal(Graph* graph, ofstream* fout)
         int E = e.e; // end
         
         // find set?
-        int p = simplefind(parent, S);
-        int q = simplefind(parent, E);
+        int p = collapsingfind(parent, S);
+        int q = collapsingfind(parent, E);
 
         if (p != q) { // Cycle not formed
-            simpleunion(parent, S, E); // union
+            weightedunion(parent, p, q); // union
             sol[S - 1].insert({ E, e.w });
             sol[E - 1].insert({ S, e.w });
             cost += e.w;
+            cnt++;
         }
 
         edges++;
 
-        if (!check(parent)) break; // found mst
+        //if (!check(parent)) break; // found mst
+        //if (edges == graph->getSize()) break;
+        if (cnt == graph->getSize() - 1) break;
     }
 
-    if (check(parent)) { // fault
+    //if (check(parent)) { // fault
+    if (cnt < graph->getSize() - 1) { // fault
         delete[] parent;
         delete[] m;
         delete[] sol;
@@ -221,7 +238,7 @@ bool Kruskal(Graph* graph, ofstream* fout)
 
 
     *fout << "cost: " << cost << endl;
-    *fout << "=====================" << endl;
+    *fout << "=====================" << endl << endl;
 
     delete[] parent;
     delete[] m;
@@ -232,16 +249,321 @@ bool Kruskal(Graph* graph, ofstream* fout)
 
 bool Dijkstra(Graph* graph, char option, int vertex, ofstream* fout)
 {
+    // The vertex you entered does not exist in the graph
+    if (vertex > graph->getSize() || vertex <= 0) return false;
+   
+    map<int, int>* m = new map<int, int>[graph->getSize()];
+    vector <int> *v = new vector<int>[graph->getSize()]; // save path
+    // vector is not empty = the node visited
+
+    int* dist = new int[graph->getSize()];
+
+    // initialization
+    // memset(dist, inf, sizeof(int) * graph->getSize()); 
+    // infinite := 1,000,000,000 (1Billion)
+    for (int i = 0; i < graph->getSize(); i++) dist[i] = inf;
+    
+    dist[vertex - 1] = 0; // self
+
+    if (option == 'Y') { // directed
+        for (int i = 1; i <= graph->getSize(); i++) {
+            graph->getAdjacentEdgesDirect(i, m + (i - 1));
+        }
+    }
+    else if (option == 'N') { // undirected
+        for (int i = 1; i <= graph->getSize(); i++) {
+            graph->getAdjacentEdges(i, m + (i - 1));
+        }
+    }
+
+    else { // Invalid option
+        delete[] dist;
+        delete[] v;
+        delete[] m;
+        //delete[] visited;
+        return false;
+    }
+
+
+    for (int i = 0; i < graph->getSize(); i++) {
+        for (auto it = m[i].begin(); it != m[i].end(); it++) {
+            if (it->second < 0) { // Negative Weight Found
+                // deallocation
+                delete[] dist;
+                delete[] v;
+                delete[] m;
+                return false;
+            }
+        }
+    }
+
+    // initialize
+    for (auto it = m[vertex - 1].begin(); it != m[vertex - 1].end(); it++) {
+        dist[it->first - 1] = it->second;
+        //v[it->second - 1].push_back(vertex);
+    }
+    
+    int* prev = new int[graph->getSize()];
+    memset(prev, -1, sizeof(int) * graph->getSize());
+
+    v[vertex - 1].push_back(vertex);
+
+    for (int i = 0; i < graph->getSize() - 1; i++) {
+        // deterine n-1 paths from vertex
+
+        int u = -1;
+
+        // get small node
+		int min = inf;
+		
+		for (int j = 0; j < graph->getSize(); j++) {
+			if (dist[j] < min && v[j].empty()) {
+				min = dist[j];
+				u = j;
+			}
+		}
+
+        if (u < 0) break; // no more path
+
+
+        if (prev[u] == -1) {
+            prev[u] = vertex;
+            v[u].push_back(vertex);
+        }
+        else for (int j = 0; j < v[prev[u] - 1].size(); j++) { // save the path
+            v[u].push_back(v[prev[u] - 1][j]);
+        }
+
+        v[u].push_back(u + 1);
+
+        for (int j = 0; j < graph->getSize(); j++) { // Update for non-visited nodes
+            if (v[j].empty()) {
+                if (m[u].find(j + 1) != m[u].end()) {
+                    if (dist[u] + m[u].find(j + 1)->second < dist[j]) {
+                        dist[j] = dist[u] + m[u].find(j + 1)->second;
+                        prev[j] = u + 1;
+
+                        //if (m[u].find(j + 1)->second < 0) { // Negative Weight Found
+                        //    flag = true; 
+                        //    break;
+                        //}
+                    }
+                }
+            }
+        }
+    }
+
+    *fout << "======= Dijkstra =======" << endl;
+
+    if (option == 'Y') *fout << "Directed ";
+    else *fout << "Undirected ";
+
+    *fout << "Graph Dijkstra result" << endl;
+    *fout << "startvertex: " << vertex << endl;
+
+    for (int i = 0; i < graph->getSize(); i++) {
+        if (i == vertex - 1) continue; // exception start vertex
+
+        *fout << '[' << i + 1 << "] ";
+
+        if (v[i].empty()) *fout << 'x' << endl;
+        else {
+            for (int j = 0; j < v[i].size(); j++) {
+                *fout << v[i][j];
+                
+                if (j != v[i].size() - 1) *fout << " -> ";
+                else *fout << " (" << dist[i] << ')' << endl;
+            }
+        }
+
+    }
+
+    *fout << "=====================" << endl << endl;
+
+    // deallocation
+    delete[] prev;
+    delete[] dist;
+    delete[] v;
+    delete[] m;
+   //delete[] visited;
+
     return true;
 }
 
 bool Bellmanford(Graph* graph, char option, int s_vertex, int e_vertex, ofstream* fout)
 {
+    // The vertex you entered does not exist in the graph
+    if (s_vertex > graph->getSize() || s_vertex <= 0) return false;
+    else if (e_vertex > graph->getSize() || e_vertex <= 0) return false;
+
+    map<int, int>* m = new map<int, int>[graph->getSize()];
+    //vector <int>* v = new vector<int>[graph->getSize()]; // save path
+    // vector is not empty = the node visited
+
+    int* dist = new int[graph->getSize()];
+    int* prev = new int[graph->getSize()];
+
+    // initialization
+    // memset(dist, inf, sizeof(int) * graph->getSize()); 
+    // infinite := 1,000,000,000 (1Billion)
+    for (int i = 0; i < graph->getSize(); i++) {
+        dist[i] = inf;
+        prev[i] = -1;
+    }
+
+    dist[s_vertex - 1] = 0; // self
+    prev[s_vertex - 1] = 0;
+
+    if (option == 'Y') { // directed
+        for (int i = 1; i <= graph->getSize(); i++) {
+            graph->getAdjacentEdgesDirect(i, m + (i - 1));
+        }
+    }
+    else if (option == 'N') { // undirected
+        for (int i = 1; i <= graph->getSize(); i++) {
+            graph->getAdjacentEdges(i, m + (i - 1));
+        }
+    }
+
+    else { // Invalid option
+        delete[] dist;
+       // delete[] v;
+        delete[] m;
+        delete[] prev;
+        //delete[] visited;
+        return false;
+    }
+
+    vector <W> edges;
+
+    // Add for all edges
+    for (int i = 0; i < graph->getSize(); i++) {
+        for (auto it = m[i].begin(); it != m[i].end(); it++) {
+            edges.push_back({ it->second, i + 1, it->first });
+        }
+    }
+
+
+    for (auto it = m[s_vertex - 1].begin(); it != m[s_vertex - 1].end(); it++) {
+        dist[it->first - 1] = it->second;
+        prev[it->first - 1] = s_vertex;
+    }
+
+   // bool flag = 0; // negative cycle
+
+    for (int i = 0; i <= graph->getSize(); i++) {
+        for (int j = 0; j < edges.size(); j++) {
+            int s = edges[j].s;
+            int e = edges[j].e;
+            int w = edges[j].w;
+
+            if (dist[s - 1] == inf) continue; // If there is no incoming edge
+            if (dist[e - 1] > dist[s - 1] + w) {
+                dist[e - 1] = dist[s - 1] + w;
+                prev[e - 1] = s;
+	
+				// negative cycle
+                if (i == graph->getSize()) {
+                    delete[] dist;
+                    delete[] m;
+                    delete[] prev;
+                    return false;
+                }
+            }
+        }
+    }
+
+    stack <int> sta;
+    sta.push(e_vertex);
+
+    int pos = e_vertex;
+
+    while (pos != s_vertex && pos >= 0) {
+        pos = prev[pos - 1];
+        sta.push(pos);
+    }
+
+    *fout << "======= Bellman-Ford =======" << endl;
+
+    if (option == 'Y') *fout << "Directed ";
+    else *fout << "Undirected ";
+
+    *fout << "Graph Bellman-Ford result" << endl;
+    if (pos < 0) *fout << "x" << endl;
+
+
+    else {
+        while (!sta.empty()) {
+            *fout << sta.top();
+            sta.pop();
+
+            if (!sta.empty()) *fout << " -> ";
+            else *fout << endl;
+        }
+
+        *fout << "cost: " << dist[e_vertex - 1] << endl;
+    }
+   
+    *fout << "=====================" << endl << endl;
+
+    delete[] dist;
+    delete[] m;
+    delete[] prev;
     return true;
 }
 
 bool FLOYD(Graph* graph, char option, ofstream* fout)
 {
+    map<int, int>* m = new map<int, int>[graph->getSize()];
+    
+    if (option == 'Y') { // directed
+        for (int i = 1; i <= graph->getSize(); i++) {
+            graph->getAdjacentEdgesDirect(i, m + (i - 1));
+        }
+    }
+    else if (option == 'N') { // undirected
+        for (int i = 1; i <= graph->getSize(); i++) {
+            graph->getAdjacentEdges(i, m + (i - 1));
+        }
+    }
+
+    else {
+        delete[] m;
+        return false;
+    }
+
+    int** table = new int* [graph->getSize()];
+    for (int i = 0; i < graph->getSize(); i++) {
+        table[i] = new int[graph->getSize()];
+        for (int j = 0; j < graph->getSize(); j++) {
+            table[i][j] = inf;
+        }
+        for (auto it = m[i].begin(); it != m[i].end(); it++) {
+            table[i][it->first - 1] = it->second;
+        }
+    }
+
+    for (int i = 0; i < graph->getSize(); i++) {
+        for (int j = 0; j < graph->getSize(); j++) {
+            for (int k = 0; k < graph->getSize(); k++) {
+                if (table[i][k] + table[k][j] < table[i][j]) {
+                    table[i][j] = table[i][k] + table[k][j];
+                }
+            }
+        }
+    }
+
+    *fout << "======= FLOYD =======" << endl;
+
+    if (option == 'Y') *fout << "Directed ";
+    else *fout << "Undirected ";
+
+    *fout << "Graph FLOYD result" << endl;
+
+
+    *fout << "=====================" << endl << endl;
+
+
     return true;
 }
 

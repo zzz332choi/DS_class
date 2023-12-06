@@ -94,16 +94,67 @@ void Manager::run(const char* command_txt){
 		}
 		else if(cmd.find("KRUSKAL") != string::npos) {
 			if (mKRUSKAL()); // success
-			else printErrorCode(500); // fail
+			else printErrorCode(600); // fail
 		}
 		else if(cmd.find("DIJKSTRA") != string::npos) {
+			int pos = cmd.find(" "); // position of blank
+			int index = pos + 1;
 
+			// If vertex is not entered
+			if (cmd.find(" ", index) == string::npos) {
+				printErrorCode(700);
+				continue;
+			}
+
+			char d = cmd[index];
+			pos = cmd.find(" ", index);
+			pos++;
+
+			int v = stoi(cmd.substr(pos));
+
+			if (!mDIJKSTRA(d, v)) printErrorCode(700);
 		}
 		else if(cmd.find("BELLMANFORD") != string::npos) {
+			int pos = cmd.find(" "); // position of blank
+			int index = pos + 1;
 
+			// If vertex is not entered
+			if (cmd.find(" ", index) == string::npos) {
+				printErrorCode(800);
+				continue;
+			}
+
+			char d = cmd[index];
+			pos = cmd.find(" ", index);
+			pos++;
+
+			// If srtart or end is not entered
+			if (cmd.find(" ", pos) == string::npos) {
+				printErrorCode(800);
+				continue;
+			}
+
+			int s = stoi(cmd.substr(pos));
+			pos = cmd.find(" ", pos);
+			pos++;
+
+			int e = stoi(cmd.substr(pos));
+
+			if (!mBELLMANFORD(d, s, e)) printErrorCode(800);
 		}
 		else if(cmd.find("FLOYD") != string::npos) {
+			// If option is not entered
+			if (cmd.find(" ") == string::npos) {
+				printErrorCode(900);
+				continue;
+			}
 
+			int pos = cmd.find(" "); // position of blank
+			int index = pos + 1;
+
+			char d = cmd[index];
+			
+			if (!mFLOYD(d)) printErrorCode(900);
 		}
 		else if(cmd.find("KWANGWOON") != string::npos) {
 
@@ -216,23 +267,34 @@ bool Manager::mDFS(char option, int vertex)
 
 bool Manager::mDIJKSTRA(char option, int vertex)	
 {
-	return true;
+	if (!graph) return false;
+
+	if (Dijkstra(graph, option, vertex, &fout)) return true;
+	else return false;
 }
 
 bool Manager::mKRUSKAL()
 {
+	if (!graph) return false;
+
 	if (Kruskal(graph, &fout)) return true;
 	else return false;
 }
 
 bool Manager::mBELLMANFORD(char option, int s_vertex, int e_vertex) 
 {
-	return true;
+	if (!graph) return false;
+
+	if (Bellmanford(graph, option, s_vertex, e_vertex, &fout)) return true;
+	else return false;
 }
 
 bool Manager::mFLOYD(char option)
 {
-	return true;
+	if (!graph) return false;
+
+	if (FLOYD(graph, option, &fout)) return true;
+	else return true;
 }
 
 bool Manager::mKwoonWoon(int vertex) {

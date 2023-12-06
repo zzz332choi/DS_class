@@ -1,6 +1,7 @@
 #ifndef _GRAPHMETHOD_H_
 #define _GRAPHMETHOD_H_
 
+#define inf 1000000000 //1Billion
 #include "ListGraph.h"
 #include "MatrixGraph.h"
 
