@@ -294,7 +294,7 @@ bool Manager::mFLOYD(char option)
 	if (!graph) return false;
 
 	if (FLOYD(graph, option, &fout)) return true;
-	else return true;
+	else return false;
 }
 
 bool Manager::mKwoonWoon(int vertex) {

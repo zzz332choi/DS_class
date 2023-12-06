@@ -536,22 +536,30 @@ bool FLOYD(Graph* graph, char option, ofstream* fout)
     for (int i = 0; i < graph->getSize(); i++) {
         table[i] = new int[graph->getSize()];
         for (int j = 0; j < graph->getSize(); j++) {
-            table[i][j] = inf;
+            if (i != j) table[i][j] = inf;
+            else table[i][j] = 0;
         }
         for (auto it = m[i].begin(); it != m[i].end(); it++) {
             table[i][it->first - 1] = it->second;
         }
     }
 
+    for (int i = 0; i < graph->getSize(); i++)
+        for (int j = 0; j < graph->getSize(); j++)
+            for (int k = 0; k < graph->getSize(); k++)
+                if (table[i][k] != inf && table[k][j] != inf)
+                    table[i][j] = min(table[i][j], table[i][k] + table[k][j]);
+
+    // negative cycle
     for (int i = 0; i < graph->getSize(); i++) {
-        for (int j = 0; j < graph->getSize(); j++) {
-            for (int k = 0; k < graph->getSize(); k++) {
-                if (table[i][k] + table[k][j] < table[i][j]) {
-                    table[i][j] = table[i][k] + table[k][j];
-                }
-            }
+        if (table[i][i] < 0) {
+            for (int j = 0; j < graph->getSize(); j++) delete[] table[j];
+            delete[] table;
+            delete[] m;
+            return false;
         }
     }
+
 
     *fout << "======= FLOYD =======" << endl;
 
@@ -560,9 +568,35 @@ bool FLOYD(Graph* graph, char option, ofstream* fout)
 
     *fout << "Graph FLOYD result" << endl;
 
+    *fout << "\t   ";
+
+    for (int i = 1; i <= graph->getSize(); i++) *fout << '[' << i << "] ";
+
+    *fout << endl;
+
+    for (int i = 1; i <= graph->getSize(); i++) {
+        *fout << '[' << i << "]  ";
+
+        // Output in left-hand alignment
+        for (int j = 0; j < graph->getSize(); j++) {
+            fout->width(4);
+            if (table[i - 1][j] == inf) *fout << 'x';
+            else *fout << table[i - 1][j];
+        }
+
+        *fout << endl;
+    }
+
 
     *fout << "=====================" << endl << endl;
 
+    //deallocation
+    for (int i = 0; i < graph->getSize(); i++) {
+        delete[] table[i];
+    }
+
+    delete[] m;
+    delete[] table;
 
     return true;
 }
