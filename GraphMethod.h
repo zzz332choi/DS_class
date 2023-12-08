@@ -20,7 +20,7 @@ void weightedunion(int* parent, int i, int j); // union method
 int simplefind(int* parent, int i);
 void simpleunion(int* parent, int i, int j);
 
-bool check(int* parent);
+bool check(bool* arr);
 
 struct W {
     int w = 0, s = 0, e = 0; // weight, start, end
@@ -28,4 +28,8 @@ struct W {
 
 void quicksort(vector<W>& arr, int low, int high);
 void insertionsort(vector<W>& arr, int low, int high);
+
+int init(int s, int e, int c, int* arr);
+int sum(int s, int e, int c, int left, int right, int* arr);
+void update(int s, int e, int c, int index, int dif, int* arr);
 #endif

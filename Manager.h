@@ -23,7 +23,7 @@ public:
 	bool mKRUSKAL();	
 	bool mBELLMANFORD(char option, int s_vertex, int e_vertex);	
 	bool mFLOYD(char option); 
-	bool mKwoonWoon(int vertex);
+	bool mKwangWoon(int vertex);
 	void printErrorCode(int n); 
 };
 

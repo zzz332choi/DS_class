@@ -17,9 +17,9 @@ public:
 	void insertEdge(int from, int to, int weight);	
 	bool printGraph(ofstream *fout);
 
-
-	//my
-	void RegetAdjacentEdgesDirect(int vertex, multimap<int, int>* m);
+	// my
+	vector<int>* get_kw_graph();
+	bool set_kw_graph();
 };
 
 #endif

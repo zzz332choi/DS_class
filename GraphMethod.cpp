@@ -643,16 +643,7 @@ void simpleunion(int* parent, int i, int j)
     parent[i] = j;
 }
 
-bool check(int* parent)
-{
-    int cnt = 0;
-    for (int i = 1; i < sizeof(parent); i++) {
-        if (parent[i] < 0) cnt++;
-    }
-    return cnt != 1;
-}
-
-void quicksort(vector<W>& arr, int low, int high)
+void quicksort(vector<W>& arr, int low, int high) // quick sort
 {
     if (low < high) {
         if (high - low + 1 <= 6) // sement_size is 6
@@ -675,7 +666,7 @@ void quicksort(vector<W>& arr, int low, int high)
     }
 }
 
-void insertionsort(vector<W>& arr, int low, int high)
+void insertionsort(vector<W>& arr, int low, int high) // insertion sort
 {
     for (int i = low + 1; i <= high; i++) {
         int j = i - 1;
@@ -690,6 +681,128 @@ void insertionsort(vector<W>& arr, int low, int high)
     }
 }
 
-bool KWANGWOON(Graph* graph, int vertex, ofstream* fout) {
+int init(int s, int e, int c, int* arr) // Building a Segment Tree
+{
+    if (s == e) return arr[c] = 1;
+    int mid = (s + e) / 2;
+
+    return arr[c] = init(s, mid, c * 2, arr) + init(mid + 1, e, c * 2 + 1, arr);
+}
+
+int sum(int s, int e, int c, int left, int right, int* arr) // Estimate the sum of intervals
+{
+    if (left > e || right < s) return 0;
+    if (left <= s && e <= right) return arr[c];
+    int mid = (s + e) / 2;
+
+    return sum(s, mid, c * 2, left, right, arr) + sum(mid + 1, e, c * 2 + 1, left, right, arr);
+}
+
+void update(int s, int e, int c, int index, int dif, int* arr) // Update interval sum
+{
+    if (index < s || index > e) return;
+
+    arr[c] += dif;
+    if (s == e) return;
+    int mid = (s + e) / 2;
+    update(s, mid, c * 2, index, dif, arr);
+    update(mid + 1, e, c * 2 + 1, index, dif, arr);
+}
+
+bool check(bool* arr) // Make sure you have visited all nodes
+{
+    int cnt = 0;
+    for (int i = 1; i < sizeof(arr); i++) if(arr[i]) cnt++;
+    return cnt != sizeof(arr) - 1;
+}
+
+bool KWANGWOON(Graph* graph, int vertex, ofstream* fout) { // kwangwoon search 
+
+    if (graph->getType()) return false; // If the type of graph is matrix
+    if (!graph->set_kw_graph()) return false; 
+
+    vector<int>* kw_graph = graph->get_kw_graph(); // allocate
+
+    for (int i = 1; i <= graph->getSize(); i++) { // sort
+        sort(kw_graph[i].begin(), kw_graph[i].end());
+    }
+
+    pair<int, int>* p = new pair<int, int>[graph->getSize() + 1];
+
+    int** tree = new int*[graph->getSize() + 1];
+    for (int i = 1; i <= graph->getSize(); i++) {
+        tree[i] = new int[kw_graph[i].size() * 4];
+        memset(tree[i], 0, sizeof(int) * kw_graph[i].size() * 4);
+        p[i] = { 0, kw_graph[i].size() - 1 };
+        if(kw_graph[i].size()) init(0, kw_graph[i].size() - 1, 1, tree[i]);
+    }
+
+    bool* visited = new bool[graph->getSize() + 1];
+    memset(visited, false, graph->getSize() + 1);
+    visited[1] = true;
+    
+
+
+    int prev = 1;
+
+    vector <int> v; // Save the order of visited nodes
+    v.push_back(prev);
+
+    while (check(visited)) {
+        for (int i = 1; i <= graph->getSize(); i++) {
+            auto it = find(kw_graph[i].begin(), kw_graph[i].end(), prev);
+            // newnew
+            if (it != kw_graph[i].end()) {
+                update(0, kw_graph[i].size() - 1, 1, it - kw_graph[i].begin(), -1, tree[i]);
+
+                while (sum(0, kw_graph[i].size() - 1, 1, p[i].second, p[i].second, tree[i]) == 0 && p[i].first <= p[i].second) p[i].second--;
+                while (sum(0, kw_graph[i].size() - 1, 1, p[i].first, p[i].first, tree[i]) == 0 && p[i].first <= p[i].second) p[i].first++;
+
+            }
+            //if (it != kw_graph[i].end()) kw_graph[i].erase(it);
+            //delete[] tree[i];
+            //tree[i] = new int[kw_graph[i].size() * 4];
+            //memset(tree[i], 0, sizeof(int) * kw_graph[i].size() * 4);
+            //if(kw_graph[i].size()) init(0, kw_graph[i].size() - 1, 1, tree[i]);
+        }
+
+        if (tree[prev][1] == 0) break; // Abnormal termination
+
+        if (tree[prev][1] % 2) // Number of nodes that can go is odd
+        {
+            prev = kw_graph[prev][p[prev].second];
+        }//prev = kw_graph[prev][kw_graph[prev].size() - 1];
+        
+        else // Number of nodes that can go is even
+        {
+            prev = kw_graph[prev][p[prev].first];
+        }//prev = kw_graph[prev][0];
+
+        v.push_back(prev);
+        visited[prev] = true;
+    }
+
+    if (check(visited) || v.empty()) { // Abnormal termination
+        for (int i = 1; i <= graph->getSize(); i++) if (tree[i]) delete[] tree[i];
+        delete[] tree;
+        delete[] visited;
+        delete[] p;
+        return false;
+    }
+
+    *fout << "======= KWANGWOON =======" << endl;
+    *fout << "startvertex: 1" << endl;
+
+    for (int i = 0; i < v.size(); i++) {
+        *fout << v[i];
+        if (i != v.size() - 1) *fout << " -> ";
+        else *fout << endl;
+    }
+
+    *fout << "=========================" << endl << endl;
+    for (int i = 1; i <= graph->getSize(); i++) if(tree[i]) delete[] tree[i];
+    delete[] tree;
+    delete[] visited;
+    delete[] p;
     return true;
 }

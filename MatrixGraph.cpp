@@ -73,3 +73,13 @@ bool MatrixGraph::printGraph(ofstream *fout)
 
     return true;
 }
+
+vector<int>* MatrixGraph::get_kw_graph()
+{
+    return nullptr;
+}
+
+bool MatrixGraph::set_kw_graph()
+{
+    return false;
+}

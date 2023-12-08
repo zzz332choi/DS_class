@@ -92,6 +92,10 @@ void Manager::run(const char* command_txt){
 
 			if (!mDFS(d, v)) printErrorCode(400);
 		}
+		else if (cmd.find("KWANGWOON") != string::npos) {
+			if (mKwangWoon(1)); // The starting vertex is always 1
+			else printErrorCode(500);
+		}
 		else if(cmd.find("KRUSKAL") != string::npos) {
 			if (mKRUSKAL()); // success
 			else printErrorCode(600); // fail
@@ -155,9 +159,6 @@ void Manager::run(const char* command_txt){
 			char d = cmd[index];
 			
 			if (!mFLOYD(d)) printErrorCode(900);
-		}
-		else if(cmd.find("KWANGWOON") != string::npos) {
-
 		}
 		else if(cmd.find("EXIT") != string::npos) {
 
@@ -297,8 +298,11 @@ bool Manager::mFLOYD(char option)
 	else return false;
 }
 
-bool Manager::mKwoonWoon(int vertex) {
-	return true;
+bool Manager::mKwangWoon(int vertex) {
+	if (!graph) return false;
+
+	if (KWANGWOON(graph, 1, &fout)) return true;
+	else return false;
 }
 
 void Manager::printErrorCode(int n)
