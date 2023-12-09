@@ -20,7 +20,7 @@ void weightedunion(int* parent, int i, int j); // union method
 int simplefind(int* parent, int i);
 void simpleunion(int* parent, int i, int j);
 
-bool check(bool* arr);
+bool check(bool* arr, int size);
 
 struct W {
     int w = 0, s = 0, e = 0; // weight, start, end

@@ -161,7 +161,11 @@ bool Kruskal(Graph* graph, ofstream* fout)
     for (int i = 1; i <= graph->getSize(); i++) {
         graph->getAdjacentEdges(i, m + (i - 1));
         for (auto it = m[i - 1].begin(); it != m[i - 1].end(); it++) {
-            if(it->second) v.push_back({ it->second, i, it->first });
+            W a;
+            a.w = it->second;
+            a.s = i;
+            a.e = it->first; //, it->first };
+            if(it->second) v.push_back(a);
         }
     }
     
@@ -191,7 +195,7 @@ bool Kruskal(Graph* graph, ofstream* fout)
     }
 
     while (edges < v.size()) {
-        W e = v[edges];
+        W e = v[edges++];
 
         int S = e.s; // start
         int E = e.e; // end
@@ -208,13 +212,14 @@ bool Kruskal(Graph* graph, ofstream* fout)
             cnt++;
         }
 
-        edges++;
+        //edges++;
 
         //if (!check(parent)) break; // found mst
         //if (edges == graph->getSize()) break;
         if (cnt == graph->getSize() - 1) break;
     }
 
+    // If no MST has been created
     //if (check(parent)) { // fault
     if (cnt < graph->getSize() - 1) { // fault
         delete[] parent;
@@ -439,7 +444,12 @@ bool Bellmanford(Graph* graph, char option, int s_vertex, int e_vertex, ofstream
     // Add for all edges
     for (int i = 0; i < graph->getSize(); i++) {
         for (auto it = m[i].begin(); it != m[i].end(); it++) {
-            edges.push_back({ it->second, i + 1, it->first });
+            W a;
+            a.w = it->second;
+            a.s = i;
+            a.e = it->first; //, it->first };
+            //if(it->second) v.push_back(a);
+            edges.push_back(a);
         }
     }
 
@@ -709,11 +719,11 @@ void update(int s, int e, int c, int index, int dif, int* arr) // Update interva
     update(mid + 1, e, c * 2 + 1, index, dif, arr);
 }
 
-bool check(bool* arr) // Make sure you have visited all nodes
+bool check(bool* arr, int size) // Make sure you have visited all nodes
 {
     int cnt = 0;
-    for (int i = 1; i < sizeof(arr); i++) if(arr[i]) cnt++;
-    return cnt != sizeof(arr) - 1;
+    for (int i = 1; i <= size; i++) if(arr[i]) cnt++;
+    return cnt != size;
 }
 
 bool KWANGWOON(Graph* graph, int vertex, ofstream* fout) { // kwangwoon search 
@@ -748,7 +758,7 @@ bool KWANGWOON(Graph* graph, int vertex, ofstream* fout) { // kwangwoon search
     vector <int> v; // Save the order of visited nodes
     v.push_back(prev);
 
-    while (check(visited)) {
+    while (check(visited, graph->getSize())) {
         for (int i = 1; i <= graph->getSize(); i++) {
             auto it = find(kw_graph[i].begin(), kw_graph[i].end(), prev);
             // newnew
@@ -782,7 +792,7 @@ bool KWANGWOON(Graph* graph, int vertex, ofstream* fout) { // kwangwoon search
         visited[prev] = true;
     }
 
-    if (check(visited) || v.empty()) { // Abnormal termination
+    if (check(visited, graph->getSize()) || v.empty()) { // Abnormal termination
         for (int i = 1; i <= graph->getSize(); i++) if (tree[i]) delete[] tree[i];
         delete[] tree;
         delete[] visited;

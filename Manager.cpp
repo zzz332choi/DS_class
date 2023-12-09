@@ -32,6 +32,8 @@ void Manager::run(const char* command_txt){
 	
 	string cmd; // command
 	while(getline(fin, cmd)) {
+		cout << cmd << endl;
+
 		// load command
 		if(cmd.find("LOAD") != string::npos) {
 			// If the factor is insufficient
@@ -42,7 +44,7 @@ void Manager::run(const char* command_txt){
 
 			int pos = cmd.find(" ");
 			pos++;
-	
+			//cout << cmd.substr(pos).c_str() << endl;
 			if(LOAD(cmd.substr(pos).c_str())) {
 				fout << "========LOAD=======" << endl;
 				fout << "Success" << endl;
@@ -161,7 +163,11 @@ void Manager::run(const char* command_txt){
 			if (!mFLOYD(d)) printErrorCode(900);
 		}
 		else if(cmd.find("EXIT") != string::npos) {
-
+			if(graph) delete graph;
+			fout<<"======== EXIT ======="<<endl;
+			fout<< "Success"<<endl;
+			fout<<"===================="<<endl << endl;
+			break;
 		}
 		// an invalid command
 		else printErrorCode(1000);
@@ -175,10 +181,15 @@ void Manager::run(const char* command_txt){
 bool Manager::LOAD(const char* filename)
 {
 	ifstream data;
+	
 	data.open(filename);
 
+	//cout << filename << endl;
+
 	// If a text file does not exist
-	if(!data) return false;
+	if(!data.is_open()) return false;
+
+	//cout << 'a' << endl;
 
 	string str;
 	if(!getline(data, str)) return false; // file is empty
@@ -188,7 +199,7 @@ bool Manager::LOAD(const char* filename)
 	getline(data, str);
 
 	int size = stoi(str);
-
+	//cout << "load" << endl;
 	if(graph) delete graph;
 
 	if(type == 'L') { // graph_L
