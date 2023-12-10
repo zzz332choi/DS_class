@@ -453,7 +453,6 @@ bool Bellmanford(Graph* graph, char option, int s_vertex, int e_vertex, ofstream
         }
     }
 
-
     for (auto it = m[s_vertex - 1].begin(); it != m[s_vertex - 1].end(); it++) {
         dist[it->first - 1] = it->second;
         prev[it->first - 1] = s_vertex;
