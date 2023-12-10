@@ -194,7 +194,7 @@ bool Kruskal(Graph* graph, ofstream* fout)
         }
     }
 
-    while (edges < v.size()) {
+    while (edges < v.size() && cnt < graph->getSize() - 1) {
         W e = v[edges++];
 
         int S = e.s; // start
@@ -216,7 +216,7 @@ bool Kruskal(Graph* graph, ofstream* fout)
 
         //if (!check(parent)) break; // found mst
         //if (edges == graph->getSize()) break;
-        if (cnt == graph->getSize() - 1) break;
+        //if (cnt == graph->getSize() - 1) break;
     }
 
     // If no MST has been created
@@ -446,7 +446,7 @@ bool Bellmanford(Graph* graph, char option, int s_vertex, int e_vertex, ofstream
         for (auto it = m[i].begin(); it != m[i].end(); it++) {
             W a;
             a.w = it->second;
-            a.s = i;
+            a.s = i + 1;
             a.e = it->first; //, it->first };
             //if(it->second) v.push_back(a);
             edges.push_back(a);
@@ -554,9 +554,9 @@ bool FLOYD(Graph* graph, char option, ofstream* fout)
         }
     }
 
-    for (int i = 0; i < graph->getSize(); i++)
-        for (int j = 0; j < graph->getSize(); j++)
-            for (int k = 0; k < graph->getSize(); k++)
+    for (int k = 0; k < graph->getSize(); k++)
+        for (int i = 0; i < graph->getSize(); i++)
+            for (int j = 0; j < graph->getSize(); j++)
                 if (table[i][k] != inf && table[k][j] != inf)
                     table[i][j] = min(table[i][j], table[i][k] + table[k][j]);
 
@@ -656,7 +656,7 @@ void simpleunion(int* parent, int i, int j)
 void quicksort(vector<W>& arr, int low, int high) // quick sort
 {
     if (low < high) {
-        if (high - low + 1 <= 6) // sement_size is 6
+        if (high - low + 1 <= 6) // segment_size is 6
             insertionsort(arr, low, high);
 
         else {
@@ -760,20 +760,22 @@ bool KWANGWOON(Graph* graph, int vertex, ofstream* fout) { // kwangwoon search
 
     while (check(visited, graph->getSize())) {
         for (int i = 1; i <= graph->getSize(); i++) {
-            auto it = find(kw_graph[i].begin(), kw_graph[i].end(), prev);
-            // newnew
-            if (it != kw_graph[i].end()) {
-                update(0, kw_graph[i].size() - 1, 1, it - kw_graph[i].begin(), -1, tree[i]);
+            if(!visited[i]) {
+                auto it = find(kw_graph[i].begin(), kw_graph[i].end(), prev);
+                // newnew
+                if (it != kw_graph[i].end()) {
+                    update(0, kw_graph[i].size() - 1, 1, it - kw_graph[i].begin(), -1, tree[i]);
 
-                while (sum(0, kw_graph[i].size() - 1, 1, p[i].second, p[i].second, tree[i]) == 0 && p[i].first <= p[i].second) p[i].second--;
-                while (sum(0, kw_graph[i].size() - 1, 1, p[i].first, p[i].first, tree[i]) == 0 && p[i].first <= p[i].second) p[i].first++;
+                    while (sum(0, kw_graph[i].size() - 1, 1, p[i].second, p[i].second, tree[i]) == 0 && p[i].first <= p[i].second) p[i].second--;
+                    while (sum(0, kw_graph[i].size() - 1, 1, p[i].first, p[i].first, tree[i]) == 0 && p[i].first <= p[i].second) p[i].first++;
 
+                }
+                //if (it != kw_graph[i].end()) kw_graph[i].erase(it);
+                //delete[] tree[i];
+                //tree[i] = new int[kw_graph[i].size() * 4];
+                //memset(tree[i], 0, sizeof(int) * kw_graph[i].size() * 4);
+                //if(kw_graph[i].size()) init(0, kw_graph[i].size() - 1, 1, tree[i]);
             }
-            //if (it != kw_graph[i].end()) kw_graph[i].erase(it);
-            //delete[] tree[i];
-            //tree[i] = new int[kw_graph[i].size() * 4];
-            //memset(tree[i], 0, sizeof(int) * kw_graph[i].size() * 4);
-            //if(kw_graph[i].size()) init(0, kw_graph[i].size() - 1, 1, tree[i]);
         }
 
         if (tree[prev][1] == 0) break; // Abnormal termination

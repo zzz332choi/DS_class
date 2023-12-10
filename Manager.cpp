@@ -15,8 +15,8 @@ Manager::Manager()
 
 Manager::~Manager()
 {
-	if(load)	//if graph is loaded, delete graph
-		delete graph;	
+	// if(load)	//if graph is loaded, delete graph
+	// 	delete graph;	
 	if(fout.is_open())	//if fout is opened, close file
 		fout.close();	//close log.txt File
 }
@@ -32,6 +32,11 @@ void Manager::run(const char* command_txt){
 	
 	string cmd; // command
 	while(getline(fin, cmd)) {
+		if(fout.is_open()) {
+			fout.close();
+			fout.open("log.txt", ios::app);
+		}
+
 		cout << cmd << endl;
 
 		// load command
