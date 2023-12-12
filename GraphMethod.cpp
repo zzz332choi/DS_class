@@ -177,6 +177,8 @@ bool Kruskal(Graph* graph, ofstream* fout)
 
     int cost = 0;
 
+    //for(int i=0; i<v.size(); i++) cout << v[i].w << ' ' << v[i].s << ' ' << v[i].e << endl;
+
     map<int, int>* sol = new map<int, int>[graph->getSize()];
  
     int edges = 0;// , prev_edges = 0;
@@ -730,6 +732,8 @@ bool KWANGWOON(Graph* graph, int vertex, ofstream* fout) { // kwangwoon search
     if (graph->getType()) return false; // If the type of graph is matrix
     if (!graph->set_kw_graph()) return false; 
 
+    if(graph->getSize() < 1) return false;
+
     vector<int>* kw_graph = graph->get_kw_graph(); // allocate
 
     for (int i = 1; i <= graph->getSize(); i++) { // sort
@@ -750,14 +754,13 @@ bool KWANGWOON(Graph* graph, int vertex, ofstream* fout) { // kwangwoon search
     memset(visited, false, graph->getSize() + 1);
     visited[1] = true;
     
-
-
     int prev = 1;
 
     vector <int> v; // Save the order of visited nodes
     v.push_back(prev);
 
-    while (check(visited, graph->getSize())) {
+    //while (check(visited, graph->getSize())) 
+    for(int k=0; k<graph->getSize(); k++) {
         for (int i = 1; i <= graph->getSize(); i++) {
             if(!visited[i]) {
                 auto it = find(kw_graph[i].begin(), kw_graph[i].end(), prev);
@@ -789,6 +792,8 @@ bool KWANGWOON(Graph* graph, int vertex, ofstream* fout) { // kwangwoon search
             prev = kw_graph[prev][p[prev].first];
         }//prev = kw_graph[prev][0];
 
+        if(visited[prev]) break;
+        
         v.push_back(prev);
         visited[prev] = true;
     }
