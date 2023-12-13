@@ -184,17 +184,17 @@ bool Kruskal(Graph* graph, ofstream* fout)
     int edges = 0;// , prev_edges = 0;
     int cnt = 0;
 
-    for (int i = 0; i < graph->getSize(); i++) {
-        for (auto it = m[i].begin(); it != m[i].end(); it++) {
-            if (it->second < 0) { // Negative Weight Found
-                // deallocation
-                delete[] parent;
-                delete[] sol;
-                delete[] m;
-                return false;
-            }
-        }
-    }
+    // for (int i = 0; i < graph->getSize(); i++) {
+    //     for (auto it = m[i].begin(); it != m[i].end(); it++) {
+    //         if (it->second < 0) { // Negative Weight Found
+    //             // deallocation
+    //             delete[] parent;
+    //             delete[] sol;
+    //             delete[] m;
+    //             return false;
+    //         }
+    //     }
+    // }
 
     while (edges < v.size() && cnt < graph->getSize() - 1) {
         W e = v[edges++];
@@ -798,7 +798,7 @@ bool KWANGWOON(Graph* graph, int vertex, ofstream* fout) { // kwangwoon search
         visited[prev] = true;
     }
 
-    if (check(visited, graph->getSize()) || v.empty()) { // Abnormal termination
+    if (v.empty()) { // Abnormal termination
         for (int i = 1; i <= graph->getSize(); i++) if (tree[i]) delete[] tree[i];
         delete[] tree;
         delete[] visited;
